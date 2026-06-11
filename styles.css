@@ -157,37 +157,28 @@ img { max-width: 100%; display: block; }
 /* ── Hero ── */
 .hero {
   position: relative;
-  background: linear-gradient(140deg,
-    #020b18  0%,
-    #061526  15%,
-    #0b2244  32%,
-    #0e3060  50%,
-    #13437a  68%,
-    #185898  84%,
-    #1d6ab2  100%
-  );
+  background: #020b18; /* fallback when WebGL unavailable */
   color: var(--white);
   padding: 100px 0 90px;
   overflow: hidden;
 }
-/* Radial glow blobs */
-.hero::after {
-  content: '';
+
+/* Three.js beams canvas */
+#beamsCanvas {
   position: absolute;
   inset: 0;
-  background:
-    radial-gradient(ellipse 60% 55% at 82% 12%, rgba(56,140,220,0.28) 0%, transparent 65%),
-    radial-gradient(ellipse 50% 60% at  4% 90%, rgba(21, 55,115,0.35) 0%, transparent 65%),
-    radial-gradient(ellipse 40% 40% at 48% 50%, rgba(25, 75,155,0.12) 0%, transparent 60%);
-  pointer-events: none;
+  width: 100%;
+  height: 100%;
+  display: block;
   z-index: 0;
 }
-/* Decorative SVG art layer */
+
+/* Decorative SVG art layer — sits above canvas */
 .hero-bg-decor {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  z-index: 0;
+  z-index: 1;
   overflow: hidden;
 }
 .hero-bg-decor svg { width: 100%; height: 100%; }
