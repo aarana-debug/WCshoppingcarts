@@ -1128,11 +1128,14 @@ img { max-width: 100%; display: block; }
 
   /* ─ Service area ─ */
   .area-inner { grid-template-columns: 1fr; gap: 32px; }
-  /* Show the interactive map, centered below the text */
-  .area-map      { display: block; }
+  /* Map appears first, then text + button below */
+  .area-map      { display: block; order: -1; }
   .area-cities   { justify-content: center; }
   .ca-map        { max-width: 300px; }
   .map-stats     { gap: 20px; }
+  .area-section .section-title { text-align: center; }
+  .area-section p { text-align: center; }
+  .area-cta-wrap { text-align: center; }
 
   /* ─ Contact ─ */
   .contact-grid  { grid-template-columns: 1fr; gap: 32px; }
