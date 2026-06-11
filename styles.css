@@ -157,28 +157,111 @@ img { max-width: 100%; display: block; }
 /* ── Hero ── */
 .hero {
   position: relative;
-  background: #020b18; /* fallback when WebGL unavailable */
+  background: linear-gradient(140deg,
+    #020b18 0%, #061526 15%, #0b2244 32%, #0e3060 50%,
+    #13437a 68%, #185898 84%, #1d6ab2 100%);
   color: var(--white);
   padding: 100px 0 90px;
   overflow: hidden;
 }
 
-/* Three.js beams canvas */
-#beamsCanvas {
+/* Animated circle rings background */
+.hero-circles {
   position: absolute;
   inset: 0;
-  width: 100%;
-  height: 100%;
-  display: block;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Animated grid overlay */
+.hero-circles::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    100deg,
+    rgba(100, 140, 200, 0.15) 0%,
+    rgba(100, 140, 200, 0.15) 1px,
+    transparent 1px,
+    transparent 4%
+  );
+  -webkit-mask-image: radial-gradient(ellipse at center, transparent 30%, black);
+  mask-image: radial-gradient(ellipse at center, transparent 30%, black);
+  animation: heroGridDrift 40s linear infinite;
+  background-size: 200% 200%;
+}
+
+@keyframes heroGridDrift {
+  0% { background-position: 0% 0%; }
+  100% { background-position: 100% 100%; }
+}
+
+/* Radial glow blobs */
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 50% at 30% 60%, rgba(21,70,122,.45) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 40% at 75% 30%, rgba(29,106,178,.35) 0%, transparent 65%),
+    radial-gradient(ellipse 40% 35% at 55% 80%, rgba(211,84,0,.12) 0%, transparent 60%);
+  pointer-events: none;
   z-index: 0;
 }
 
-/* Decorative SVG art layer — sits above canvas */
+/* Rotating circle rings */
+.hero-circle-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  background: linear-gradient(135deg, transparent, transparent) padding-box;
+}
+
+.hero-circle-ring:nth-child(1) {
+  width: 520px; height: 520px;
+  border-color: rgba(21,70,122,0.6);
+  background: linear-gradient(135deg, rgba(21,70,122,0.15), transparent) padding-box;
+  animation: ringRotate 6s ease-in-out infinite, ringPulse 6s ease-in-out infinite;
+}
+.hero-circle-ring:nth-child(2) {
+  width: 520px; height: 520px;
+  border-color: rgba(29,106,178,0.45);
+  background: linear-gradient(135deg, rgba(29,106,178,0.08), transparent) padding-box;
+  animation: ringRotate 6s ease-in-out infinite 0.4s, ringPulse2 6s ease-in-out infinite 0.4s;
+}
+.hero-circle-ring:nth-child(3) {
+  width: 520px; height: 520px;
+  border-color: rgba(100,150,200,0.25);
+  animation: ringRotate 6s ease-in-out infinite 0.8s, ringPulse3 6s ease-in-out infinite 0.8s;
+}
+
+@keyframes ringRotate {
+  0%, 100% { transform: rotate(0deg) scale(1); opacity: 0.8; }
+  50% { transform: rotate(180deg) scale(1.07); opacity: 1; }
+}
+@keyframes ringPulse {
+  0%, 100% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(180deg) scale(1.05); }
+}
+@keyframes ringPulse2 {
+  0%, 100% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(180deg) scale(1.1); }
+}
+@keyframes ringPulse3 {
+  0%, 100% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(180deg) scale(1.15); }
+}
+
+/* Decorative SVG art layer */
 .hero-bg-decor {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  z-index: 1;
+  z-index: 0;
   overflow: hidden;
 }
 .hero-bg-decor svg { width: 100%; height: 100%; }
