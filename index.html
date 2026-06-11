@@ -408,7 +408,7 @@
         <p class="section-sub">Abandoned shopping carts cost retailers thousands every year in lost inventory, liability risk, and customer complaints. Watch to learn why professional cart collection is a must — and why West Coast Shopping Cart Service is the right team to handle it for you.</p>
       </div>
       <div class="video-wrap">
-        <video controls playsinline preload="metadata">
+        <video id="heroVideo" controls playsinline preload="metadata" muted>
           <source src="cart video main.mp4" type="video/mp4">
         </video>
       </div>
@@ -1070,6 +1070,20 @@
         }
       });
     });
+
+    // Autoplay video when scrolled into view, pause when scrolled out
+    (function() {
+      const vid = document.getElementById('heroVideo');
+      if (!vid) return;
+      const vidObserver = new IntersectionObserver(entries => {
+        if (entries[0].isIntersecting) {
+          vid.play().catch(() => {});
+        } else {
+          vid.pause();
+        }
+      }, { threshold: 0.5 });
+      vidObserver.observe(vid);
+    })();
 
     // Interactive CA map tooltips
     (function() {
