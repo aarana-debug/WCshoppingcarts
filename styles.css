@@ -532,9 +532,9 @@ img { max-width: 100%; display: block; }
 }
 .pin-lbl {
   font-family: 'Roboto', sans-serif;
-  font-size: 8px;
+  font-size: 9px;
   font-weight: 700;
-  fill: rgba(255,255,255,0.75);
+  fill: rgba(255,255,255,0.9);
   pointer-events: none;
 }
 .map-pin:hover .pin-lbl { fill: #ffffff; }
