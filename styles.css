@@ -1127,15 +1127,16 @@ img { max-width: 100%; display: block; }
   .about-img-wrap { display: none; }
 
   /* ─ Service area ─ */
-  .area-inner { grid-template-columns: 1fr; gap: 32px; }
-  /* Map appears first, then text + button below */
-  .area-map      { display: block; order: -1; }
-  .area-cities   { justify-content: center; }
-  .ca-map        { max-width: 300px; }
-  .map-stats     { gap: 20px; }
+  .area-inner    { grid-template-columns: 1fr; gap: 24px; }
+  .area-map      { order: -1; }
+  .ca-map        { max-width: 280px; margin: 0 auto; }
+  .map-stats     { gap: 20px; justify-content: center; }
+  /* Hide city tags on mobile — map pins already show them */
+  .area-cities   { display: none; }
   .area-section .section-title { text-align: center; }
-  .area-section p { text-align: center; }
+  .area-section p { text-align: center; margin-bottom: 20px; }
   .area-cta-wrap { text-align: center; }
+  .area-cta-wrap .btn { width: 100%; max-width: 320px; }
 
   /* ─ Contact ─ */
   .contact-grid  { grid-template-columns: 1fr; gap: 32px; }
