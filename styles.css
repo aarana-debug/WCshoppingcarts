@@ -1208,3 +1208,86 @@ img { max-width: 100%; display: block; }
   /* Footer */
   .footer-logo img { height: 44px; }
 }
+
+/* ── Report Modal ── */
+.rpt-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.65);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .25s ease;
+}
+.rpt-overlay.open {
+  opacity: 1;
+  pointer-events: all;
+}
+.rpt-modal {
+  background: #fff;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 560px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 40px 36px 32px;
+  position: relative;
+  box-shadow: 0 24px 64px rgba(0,0,0,.35);
+  transform: translateY(16px);
+  transition: transform .25s ease;
+}
+.rpt-overlay.open .rpt-modal { transform: translateY(0); }
+.rpt-close {
+  position: absolute;
+  top: 16px;
+  right: 18px;
+  background: none;
+  border: none;
+  font-size: 1.6rem;
+  color: var(--gray);
+  cursor: pointer;
+  line-height: 1;
+  padding: 4px 8px;
+}
+.rpt-close:hover { color: #111; }
+.rpt-header {
+  text-align: center;
+  margin-bottom: 28px;
+}
+.rpt-header svg { margin: 0 auto 12px; display: block; }
+.rpt-header h2 { font-size: 1.4rem; color: var(--navy); margin-bottom: 8px; }
+.rpt-header p  { color: var(--gray); font-size: .93rem; }
+.rpt-required  { color: var(--orange); font-weight: 700; }
+.rpt-submit    { width: 100%; justify-content: center; display: flex; margin-top: 8px; }
+.rpt-note      { text-align: center; font-size: .8rem; color: var(--gray); margin-top: 12px; }
+.rpt-success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 14px;
+  padding: 20px 0 8px;
+}
+.rpt-success h3 { font-size: 1.4rem; color: var(--navy); }
+.rpt-success p  { color: var(--gray); max-width: 360px; }
+
+/* Report banner button as button element */
+button.report-banner-btn {
+  font-family: var(--font);
+  cursor: pointer;
+}
+/* Floating report as button element */
+button.floating-report {
+  font-family: var(--font);
+  cursor: pointer;
+}
+
+@media (max-width: 480px) {
+  .rpt-modal { padding: 32px 20px 24px; }
+}

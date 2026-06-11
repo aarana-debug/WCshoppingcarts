@@ -452,7 +452,7 @@
           <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z"/><circle cx="12" cy="11" r="3"/></svg>
           <span><strong>See an abandoned shopping cart?</strong> Report it — we'll dispatch a driver within 24 hours at no cost to you.</span>
         </div>
-        <a href="#contact" class="report-banner-btn">Report Abandon Carts</a>
+        <button class="report-banner-btn" onclick="openReportModal()">Report Abandon Carts</button>
       </div>
     </div>
   </div>
@@ -1006,10 +1006,67 @@
   </a>
 
   <!-- ══ FLOATING REPORT BUTTON ══ -->
-  <a href="#contact" class="floating-report" id="floatingReport">
+  <button class="floating-report" id="floatingReport" onclick="openReportModal()">
     <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z"/><circle cx="12" cy="11" r="3"/></svg>
     <span class="btn-txt">Report Abandon Carts</span>
-  </a>
+  </button>
+
+  <!-- ══ REPORT MODAL ══ -->
+  <div id="reportModal" class="rpt-overlay" role="dialog" aria-modal="true" aria-labelledby="rptTitle">
+    <div class="rpt-modal">
+      <button class="rpt-close" onclick="closeReportModal()" aria-label="Close">&times;</button>
+
+      <!-- Form view -->
+      <div id="rptFormWrap">
+        <div class="rpt-header">
+          <svg width="36" height="36" fill="none" stroke="#2563eb" stroke-width="2" viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z"/><circle cx="12" cy="11" r="3"/></svg>
+          <h2 id="rptTitle">Report Abandoned Carts</h2>
+          <p>Fill out the form below and we'll dispatch a driver within 24 hours — at no cost to you.</p>
+        </div>
+        <form id="reportForm" action="https://formspree.io/f/jose@wcshoppingcart.com" method="POST">
+          <input type="hidden" name="_subject" value="Abandoned Cart Report — West Coast Shopping Cart Service">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="rptName">Your Name</label>
+              <input type="text" id="rptName" name="name" placeholder="Jane Smith" required>
+            </div>
+            <div class="form-group">
+              <label for="rptContact">Phone or Email</label>
+              <input type="text" id="rptContact" name="contact" placeholder="(555) 000-0000 or email@example.com" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="rptStore">Store Name (if known)</label>
+            <input type="text" id="rptStore" name="store_name" placeholder="e.g. Walmart, Ralphs, Target">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="rptLocation">Cart Location / Address <span class="rpt-required">*</span></label>
+              <input type="text" id="rptLocation" name="location" placeholder="Street address or intersection" required>
+            </div>
+            <div class="form-group">
+              <label for="rptCount">Number of Carts</label>
+              <input type="number" id="rptCount" name="cart_count" min="1" max="999" placeholder="e.g. 3">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="rptNotes">Additional Details</label>
+            <textarea id="rptNotes" name="notes" rows="3" placeholder="Condition, landmarks, any other details..."></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary rpt-submit">Submit Report</button>
+          <p class="rpt-note">We follow up within 24 hours. No cost to you — we bill the retailer.</p>
+        </form>
+      </div>
+
+      <!-- Success view -->
+      <div id="rptSuccess" style="display:none" class="rpt-success">
+        <svg width="56" height="56" fill="none" stroke="#2563eb" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-5"/></svg>
+        <h3>Report Received!</h3>
+        <p>Thank you for letting us know. We'll dispatch a driver to collect the carts within 24 hours.</p>
+        <button class="btn btn-primary" onclick="closeReportModal()">Close</button>
+      </div>
+    </div>
+  </div>
 
   <script>
     // Nav toggle
@@ -1134,6 +1191,60 @@
         });
       });
     })();
+  </script>
+
+  <script>
+    // ── Report Modal ──────────────────────────────────────────────────────
+    function openReportModal() {
+      document.getElementById('reportModal').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeReportModal() {
+      document.getElementById('reportModal').classList.remove('open');
+      document.body.style.overflow = '';
+      setTimeout(() => {
+        document.getElementById('rptSuccess').style.display = 'none';
+        document.getElementById('rptFormWrap').style.display = '';
+        document.getElementById('reportForm').reset();
+      }, 300);
+    }
+
+    // Close on overlay click
+    document.getElementById('reportModal').addEventListener('click', function(e) {
+      if (e.target === this) closeReportModal();
+    });
+
+    // Close on Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeReportModal();
+    });
+
+    // Handle form submission via Formspree AJAX
+    document.getElementById('reportForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const btn = this.querySelector('.rpt-submit');
+      btn.textContent = 'Sending…';
+      btn.disabled = true;
+      try {
+        const res = await fetch(this.action, {
+          method: 'POST',
+          body: new FormData(this),
+          headers: { 'Accept': 'application/json' }
+        });
+        if (res.ok) {
+          document.getElementById('rptFormWrap').style.display = 'none';
+          document.getElementById('rptSuccess').style.display = 'flex';
+        } else {
+          btn.textContent = 'Try Again';
+          btn.disabled = false;
+          alert('Something went wrong. Please call (888) 787-Cart to report directly.');
+        }
+      } catch {
+        btn.textContent = 'Try Again';
+        btn.disabled = false;
+        alert('Network error. Please call (888) 787-Cart to report directly.');
+      }
+    });
   </script>
 </body>
 </html>
