@@ -170,16 +170,6 @@ img { max-width: 100%; display: block; }
   padding: 100px 0 90px;
   overflow: hidden;
 }
-/* Dot-grid overlay */
-.hero::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: radial-gradient(circle, rgba(255,255,255,0.09) 1px, transparent 1px);
-  background-size: 34px 34px;
-  pointer-events: none;
-  z-index: 0;
-}
 /* Radial glow blobs */
 .hero::after {
   content: '';
