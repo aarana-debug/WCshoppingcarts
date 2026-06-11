@@ -1,14 +1,14 @@
 /* ================================================
    West Coast Shopping Cart Service - Stylesheet
-   Colors: #15467a (primary), #0f093d (dark), #D35400 (orange), #fff (white)
+   Colors: #1a5fb4 (primary), #080c18 (dark), #2563eb (blue accent), #fff (white)
    ================================================ */
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --blue:    #15467a;
-  --navy:    #0f093d;
-  --orange:  #D35400;
+  --blue:    #1a5fb4;
+  --navy:    #080c18;
+  --orange:  #2563eb;
   --white:   #ffffff;
   --light:   #f4f7fb;
   --gray:    #686868;
@@ -45,7 +45,7 @@ img { max-width: 100%; display: block; }
   text-align: center;
 }
 .btn-primary { background: var(--orange); color: var(--white); border-color: var(--orange); }
-.btn-primary:hover { background: #b94600; border-color: #b94600; color: var(--white); }
+.btn-primary:hover { background: #1d4ed8; border-color: #1d4ed8; color: var(--white); }
 .btn-outline { background: transparent; color: var(--white); border-color: var(--white); }
 .btn-outline:hover { background: var(--white); color: var(--blue); }
 .btn-blue { background: var(--blue); color: var(--white); border-color: var(--blue); }
@@ -134,7 +134,7 @@ img { max-width: 100%; display: block; }
   font-weight: 700;
   padding: 8px 18px;
 }
-.nav-list .nav-cta a:hover { background: #b94600; color: var(--white); }
+.nav-list .nav-cta a:hover { background: #1d4ed8; color: var(--white); }
 
 .nav-toggle {
   display: none;
@@ -158,8 +158,8 @@ img { max-width: 100%; display: block; }
 .hero {
   position: relative;
   background: linear-gradient(140deg,
-    #020b18 0%, #061526 15%, #0b2244 32%, #0e3060 50%,
-    #13437a 68%, #185898 84%, #1d6ab2 100%);
+    #020408 0%, #040810 15%, #060f20 32%, #091530 50%,
+    #0d2255 68%, #1135a0 84%, #1a4ec4 100%);
   color: var(--white);
   padding: 100px 0 90px;
   overflow: hidden;
@@ -184,9 +184,9 @@ img { max-width: 100%; display: block; }
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse 70% 50% at 30% 60%, rgba(21,70,122,.45) 0%, transparent 70%),
-    radial-gradient(ellipse 50% 40% at 75% 30%, rgba(29,106,178,.35) 0%, transparent 65%),
-    radial-gradient(ellipse 40% 35% at 55% 80%, rgba(211,84,0,.12) 0%, transparent 60%);
+    radial-gradient(ellipse 70% 50% at 30% 60%, rgba(26,95,180,.50) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 40% at 75% 30%, rgba(37,99,235,.30) 0%, transparent 65%),
+    radial-gradient(ellipse 40% 35% at 55% 80%, rgba(37,99,235,.15) 0%, transparent 60%);
   pointer-events: none;
   z-index: 0;
 }
@@ -273,7 +273,7 @@ img { max-width: 100%; display: block; }
   margin-bottom: 20px;
   color: var(--white);
 }
-.hero h1 span { color: #f5a623; }
+.hero h1 span { color: #2563eb; }
 .hero-desc {
   font-size: 1.08rem;
   opacity: .88;
@@ -290,7 +290,7 @@ img { max-width: 100%; display: block; }
 .hero-stat-num {
   font-size: 2rem;
   font-weight: 800;
-  color: #f5a623;
+  color: #2563eb;
   display: block;
 }
 .hero-stat-lbl { font-size: .8rem; opacity: .75; text-transform: uppercase; letter-spacing: .08em; }
@@ -418,7 +418,7 @@ img { max-width: 100%; display: block; }
   border-radius: 10px;
   padding: 16px 22px;
   text-align: center;
-  box-shadow: 0 8px 24px rgba(211,84,0,.35);
+  box-shadow: 0 8px 24px rgba(37,99,235,.35);
 }
 .about-badge-num { font-size: 2rem; font-weight: 800; display: block; }
 .about-badge-txt { font-size: .78rem; font-weight: 600; opacity: .9; text-transform: uppercase; letter-spacing: .06em; }
@@ -457,7 +457,7 @@ img { max-width: 100%; display: block; }
   align-items: center;
 }
 .area-section .section-title { color: var(--white); text-align: left; }
-.area-section .section-label { color: #f5a623; }
+.area-section .section-label { color: #2563eb; }
 .area-section p { color: rgba(255,255,255,.75); margin-bottom: 16px; }
 .area-cities {
   display: flex;
@@ -503,7 +503,7 @@ img { max-width: 100%; display: block; }
   100% { stroke-dashoffset: -40; }
 }
 .pin-pulse {
-  fill: rgba(245,166,35,0.35);
+  fill: rgba(37,99,235,0.35);
   transform-box: fill-box;
   transform-origin: center;
   animation: mapPingOut 2.6s ease-out infinite;
@@ -513,7 +513,7 @@ img { max-width: 100%; display: block; }
   100% { transform: scale(3.4); opacity: 0; }
 }
 .pin-dot {
-  fill: #f5a623;
+  fill: #2563eb;
   stroke: rgba(255,255,255,0.85);
   stroke-width: 1.5;
   transition: fill .2s;
@@ -525,7 +525,7 @@ img { max-width: 100%; display: block; }
 .map-pin { cursor: pointer; }
 .map-pin:hover .pin-dot {
   fill: #ffffff;
-  filter: drop-shadow(0 0 8px rgba(245,166,35,1));
+  filter: drop-shadow(0 0 8px rgba(37,99,235,1));
 }
 .map-pin:hover .pin-pulse {
   fill: rgba(255,255,255,0.3);
@@ -591,7 +591,7 @@ img { max-width: 100%; display: block; }
   display: block;
   font-size: 1.3rem;
   font-weight: 800;
-  color: #f5a623;
+  color: #2563eb;
   line-height: 1;
 }
 .map-stat-lbl {
@@ -816,10 +816,10 @@ img { max-width: 100%; display: block; }
   border-radius: 50px;
   white-space: nowrap;
   flex-shrink: 0;
-  box-shadow: 0 4px 18px rgba(211,84,0,.4);
+  box-shadow: 0 4px 18px rgba(37,99,235,.4);
   transition: background .2s, transform .2s;
 }
-.report-banner-btn:hover { background: #b94600; color: var(--white); transform: translateY(-2px); }
+.report-banner-btn:hover { background: #1d4ed8; color: var(--white); transform: translateY(-2px); }
 
 /* ── Floating CTAs ── */
 .floating-phone {
@@ -836,10 +836,10 @@ img { max-width: 100%; display: block; }
   display: flex;
   align-items: center;
   gap: 10px;
-  box-shadow: 0 6px 28px rgba(211,84,0,.4);
+  box-shadow: 0 6px 28px rgba(37,99,235,.4);
   transition: transform .2s, box-shadow .2s;
 }
-.floating-phone:hover { transform: translateY(-3px); box-shadow: 0 10px 36px rgba(211,84,0,.5); color: var(--white); }
+.floating-phone:hover { transform: translateY(-3px); box-shadow: 0 10px 36px rgba(37,99,235,.5); color: var(--white); }
 
 .floating-report {
   position: fixed;

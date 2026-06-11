@@ -132,8 +132,8 @@
                 </radialGradient>
                 <!-- Warm glow for spark point -->
                 <radialGradient id="boltGlow" cx="50%" cy="50%" r="50%">
-                  <stop offset="0%" stop-color="#f5a623" stop-opacity="0.6"/>
-                  <stop offset="100%" stop-color="#f5a623" stop-opacity="0"/>
+                  <stop offset="0%" stop-color="#2563eb" stop-opacity="0.6"/>
+                  <stop offset="100%" stop-color="#2563eb" stop-opacity="0"/>
                 </radialGradient>
                 <pattern id="wireMesh" x="0" y="0" width="22" height="22" patternUnits="userSpaceOnUse">
                   <path d="M22 0 L0 0 0 22" fill="none" stroke="rgba(200,225,255,0.22)" stroke-width="1"/>
@@ -300,12 +300,12 @@
                 <!-- Sparks / metal chips at bolt — flash on each tightening stroke -->
                 <g>
                   <circle cx="252" cy="329" r="14" fill="url(#boltGlow)"/>
-                  <line x1="252" y1="329" x2="232" y2="310" stroke="#f5a623" stroke-width="2.5" stroke-linecap="round"/>
-                  <line x1="252" y1="329" x2="274" y2="313" stroke="#f5a623" stroke-width="2"   stroke-linecap="round"/>
-                  <line x1="252" y1="329" x2="228" y2="326" stroke="#f5a623" stroke-width="2"   stroke-linecap="round"/>
-                  <line x1="252" y1="329" x2="272" y2="343" stroke="#f5a623" stroke-width="1.8" stroke-linecap="round"/>
-                  <line x1="252" y1="329" x2="247" y2="308" stroke="#f5a623" stroke-width="1.5" stroke-linecap="round"/>
-                  <line x1="252" y1="329" x2="264" y2="310" stroke="#f5a623" stroke-width="1.5" stroke-linecap="round"/>
+                  <line x1="252" y1="329" x2="232" y2="310" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round"/>
+                  <line x1="252" y1="329" x2="274" y2="313" stroke="#2563eb" stroke-width="2"   stroke-linecap="round"/>
+                  <line x1="252" y1="329" x2="228" y2="326" stroke="#2563eb" stroke-width="2"   stroke-linecap="round"/>
+                  <line x1="252" y1="329" x2="272" y2="343" stroke="#2563eb" stroke-width="1.8" stroke-linecap="round"/>
+                  <line x1="252" y1="329" x2="247" y2="308" stroke="#2563eb" stroke-width="1.5" stroke-linecap="round"/>
+                  <line x1="252" y1="329" x2="264" y2="310" stroke="#2563eb" stroke-width="1.5" stroke-linecap="round"/>
                   <!-- Sync opacity flash with wrench tightening strokes -->
                   <animate attributeName="opacity"
                     values="0;0;1;0;0;1;0;0"
@@ -337,7 +337,7 @@
 
               <!-- SERVICING badge -->
               <g class="badge-pop" style="animation-delay:0.25s">
-                <rect x="26" y="130" width="128" height="30" rx="15" fill="rgba(245,166,35,0.92)"/>
+                <rect x="26" y="130" width="128" height="30" rx="15" fill="rgba(37,99,235,0.92)"/>
                 <rect x="27" y="131" width="126" height="28" rx="14" fill="none" stroke="rgba(255,255,255,0.22)" stroke-width="1.5"/>
                 <text x="90" y="150" text-anchor="middle" font-family="Roboto,sans-serif" font-size="11" font-weight="700" fill="white">SERVICING CART</text>
               </g>
@@ -345,9 +345,9 @@
               <!-- Location pin left (pick-up point) -->
               <g class="pin-anim">
                 <path d="M46,188 C46,174 58,162 72,162 C86,162 98,174 98,188 C98,208 72,230 72,230 C72,230 46,208 46,188 Z"
-                  fill="rgba(211,84,0,0.9)" stroke="rgba(255,255,255,0.35)" stroke-width="2"/>
+                  fill="rgba(37,99,235,0.9)" stroke="rgba(255,255,255,0.35)" stroke-width="2"/>
                 <circle cx="72" cy="188" r="10" fill="rgba(255,255,255,0.88)"/>
-                <circle cx="72" cy="188" r="5"  fill="#D35400"/>
+                <circle cx="72" cy="188" r="5"  fill="#2563eb"/>
                 <rect x="30" y="232" width="84" height="20" rx="10" fill="rgba(0,0,0,0.28)"/>
                 <text x="72" y="247" text-anchor="middle" font-family="Roboto,sans-serif" font-size="9.5" font-weight="600" fill="rgba(255,255,255,0.82)">PICK-UP</text>
               </g>
@@ -371,7 +371,7 @@
                 <path d="M487,272 L489,266 L491,272 L497,274 L491,276 L489,282 L487,276 L481,274 Z" fill="rgba(200,224,255,0.62)"/>
               </g>
               <g class="spark spark-4" style="transform-box:fill-box;transform-origin:center">
-                <path d="M40,318 L42,312 L44,318 L50,320 L44,322 L42,328 L40,322 L34,320 Z" fill="rgba(245,166,35,0.60)"/>
+                <path d="M40,318 L42,312 L44,318 L50,320 L44,322 L42,328 L40,322 L34,320 Z" fill="rgba(37,99,235,0.60)"/>
               </g>
 
             </svg>
@@ -602,8 +602,8 @@
                 <stop offset="100%" stop-color="rgba(255,255,255,0.02)"/>
               </linearGradient>
               <linearGradient id="svcGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stop-color="rgba(245,166,35,0.10)"/>
-                <stop offset="100%" stop-color="rgba(245,166,35,0.26)"/>
+                <stop offset="0%" stop-color="rgba(37,99,235,0.10)"/>
+                <stop offset="100%" stop-color="rgba(37,99,235,0.26)"/>
               </linearGradient>
               <filter id="pinGlow" x="-60%" y="-60%" width="220%" height="220%">
                 <feGaussianBlur stdDeviation="3" result="blur"/>
@@ -623,12 +623,12 @@
               d="M28,296 L58,328 L82,360 L110,398 L138,432 L165,455
                  L260,448 L298,405 L316,355 L310,300 L280,280
                  L230,270 L190,272 L150,278 L100,288 L60,294 Z"
-              fill="url(#svcGrad)" stroke="rgba(245,166,35,0.55)" stroke-width="1.5" stroke-dasharray="7 4"/>
+              fill="url(#svcGrad)" stroke="rgba(37,99,235,0.55)" stroke-width="1.5" stroke-dasharray="7 4"/>
 
             <!-- Service route line: SD → LA → Oxnard -->
             <path class="ca-route"
               d="M162,445 C138,424 116,400 100,374 C84,350 74,340 65,322"
-              stroke="rgba(245,166,35,0.55)" stroke-width="2" stroke-dasharray="6 4"
+              stroke="rgba(37,99,235,0.55)" stroke-width="2" stroke-dasharray="6 4"
               stroke-linecap="round"/>
 
             <!-- CALIFORNIA label -->
@@ -638,7 +638,7 @@
 
             <!-- Coverage zone label -->
             <text x="170" y="388" text-anchor="middle" font-family="Roboto,sans-serif"
-              font-size="9" font-weight="600" fill="rgba(245,166,35,0.65)"
+              font-size="9" font-weight="600" fill="rgba(37,99,235,0.65)"
               letter-spacing="1">SERVICE AREA</text>
 
             <!-- North compass -->
@@ -720,9 +720,9 @@
 
             <!-- Endpoint labels -->
             <text x="162" y="462" text-anchor="middle" font-family="Roboto,sans-serif"
-              font-size="7.5" fill="rgba(245,166,35,0.85)" font-weight="700">&#9660; SD</text>
+              font-size="7.5" fill="rgba(37,99,235,0.85)" font-weight="700">&#9660; SD</text>
             <text x="48" y="311" text-anchor="middle" font-family="Roboto,sans-serif"
-              font-size="7.5" fill="rgba(245,166,35,0.85)" font-weight="700">&#9650; OXN</text>
+              font-size="7.5" fill="rgba(37,99,235,0.85)" font-weight="700">&#9650; OXN</text>
           </svg>
 
           <!-- Map footer stats -->
