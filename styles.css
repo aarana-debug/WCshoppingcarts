@@ -1105,12 +1105,9 @@ img { max-width: 100%; display: block; }
   .hero-actions .btn { width: 100%; max-width: 340px; }
   .hero-stats   { justify-content: center; gap: 24px; }
 
-  /* Show the cart SVG — scaled down, above text via order */
-  .hero-visual {
-    display: flex;
-    order: -1;
-  }
-  .cart-scene  { max-width: 240px; }
+  /* Hide the cart SVG on mobile — too cluttered */
+  .hero-visual { display: none; }
+  .hero-inner  { grid-template-columns: 1fr; }
 
   /* ─ Services ─ */
   .services-grid { grid-template-columns: 1fr; }
