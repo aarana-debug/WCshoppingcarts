@@ -1129,6 +1129,7 @@ img { max-width: 100%; display: block; }
   /* ─ Service area ─ */
   .area-inner    { grid-template-columns: 1fr; gap: 24px; }
   .area-map      { order: -1; }
+  .area-section .section-label { display: none; }
   .ca-map        { max-width: 280px; margin: 0 auto; }
   .map-stats     { gap: 20px; justify-content: center; }
   /* Hide city tags on mobile — map pins already show them */
