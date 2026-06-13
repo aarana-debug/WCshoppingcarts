@@ -537,7 +537,10 @@ img { max-width: 100%; display: block; }
   fill: rgba(255,255,255,0.9);
   pointer-events: none;
 }
-.map-pin:hover .pin-lbl { fill: #ffffff; }
+.map-pin:hover .pin-lbl,
+.map-pin:focus .pin-lbl { fill: #ffffff; }
+.map-pin:focus { outline: 2px solid #fff; outline-offset: 3px; border-radius: 50%; }
+.map-pin { cursor: pointer; }
 .map-tooltip-html {
   position: absolute;
   background: #ffffff;
@@ -1291,6 +1294,23 @@ button.floating-report {
 @media (max-width: 480px) {
   .rpt-modal { padding: 32px 20px 24px; }
 }
+
+/* ── Skip Link (ADA) ── */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 16px;
+  background: var(--navy);
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 0 0 8px 8px;
+  font-weight: 700;
+  font-size: .9rem;
+  z-index: 99999;
+  transition: top .2s;
+  text-decoration: none;
+}
+.skip-link:focus { top: 0; }
 
 /* ── Cookie Banner ── */
 .cookie-banner {

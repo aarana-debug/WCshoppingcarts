@@ -13,6 +13,9 @@
 </head>
 <body>
 
+  <!-- Skip navigation (ADA) -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
   <!-- ══ TOP BAR ══ -->
   <div class="topbar">
     <div class="container">
@@ -62,7 +65,8 @@
   </header>
 
   <!-- ══ HERO ══ -->
-  <section class="hero" id="home">
+  <section class="hero" id="home" aria-label="Hero">
+  <div id="main-content" tabindex="-1" style="position:absolute;top:0"></div>
 
     <!-- Animated circle rings background -->
     <div class="hero-circles" aria-hidden="true">
@@ -197,7 +201,9 @@
                   x="116" y="208" width="168" height="72"
                   preserveAspectRatio="xMidYMid meet"
                   clip-path="url(#basketMask)"
-                  opacity="0.88"/>
+                  opacity="0.88"
+                  role="img"
+                  aria-label="West Coast Shopping Cart Service logo"/>
 
                 <!-- Chassis frame -->
                 <line x1="152" y1="292" x2="152" y2="338" stroke="rgba(200,224,250,0.88)" stroke-width="5.5" stroke-linecap="round"/>
@@ -390,7 +396,8 @@
         <p class="section-sub">Abandoned shopping carts cost retailers thousands every year in lost inventory, liability risk, and customer complaints. Watch to learn why professional cart collection is a must — and why West Coast Shopping Cart Service is the right team to handle it for you.</p>
       </div>
       <div class="video-wrap">
-        <video id="heroVideo" controls playsinline preload="metadata" muted>
+        <video id="heroVideo" controls playsinline preload="metadata" muted
+          aria-label="West Coast Shopping Cart Service promotional video">
           <source src="cart video main.mp4" type="video/mp4">
         </video>
         <button class="video-unmute-btn" id="videoUnmuteBtn" aria-label="Unmute video">
@@ -666,14 +673,14 @@
             <!-- ── City Pins (13 key cities, all labeled) ── -->
 
             <!-- Santa Barbara -->
-            <g class="map-pin" data-city="Santa Barbara">
+            <g class="map-pin" tabindex="0" role="button" data-city="Santa Barbara">
               <circle class="pin-pulse" cx="44" cy="303" r="5" style="animation-delay:0s"/>
               <circle class="pin-dot"   cx="44" cy="303" r="4.5"/>
               <text class="pin-lbl" x="55" y="307" stroke="rgba(8,12,24,0.85)" stroke-width="2.5" paint-order="stroke fill">Santa Barbara</text>
             </g>
 
             <!-- Oxnard (north anchor) -->
-            <g class="map-pin" data-city="Oxnard">
+            <g class="map-pin" tabindex="0" role="button" data-city="Oxnard">
               <circle class="pin-pulse" cx="58" cy="321" r="6" style="animation-delay:0.3s"/>
               <circle class="pin-pulse" cx="58" cy="321" r="6" style="animation-delay:1.1s;animation-duration:3.2s"/>
               <circle class="pin-dot"   cx="58" cy="321" r="5.5" filter="url(#pinGlow)"/>
@@ -681,28 +688,28 @@
             </g>
 
             <!-- Ventura -->
-            <g class="map-pin" data-city="Ventura">
+            <g class="map-pin" tabindex="0" role="button" data-city="Ventura">
               <circle class="pin-pulse" cx="66" cy="334" r="5" style="animation-delay:0.6s"/>
               <circle class="pin-dot"   cx="66" cy="334" r="4.5"/>
               <text class="pin-lbl" x="77" y="338" stroke="rgba(8,12,24,0.85)" stroke-width="2.5" paint-order="stroke fill">Ventura</text>
             </g>
 
             <!-- Palmdale -->
-            <g class="map-pin" data-city="Palmdale">
+            <g class="map-pin" tabindex="0" role="button" data-city="Palmdale">
               <circle class="pin-pulse" cx="142" cy="328" r="5" style="animation-delay:0.9s"/>
               <circle class="pin-dot"   cx="142" cy="328" r="4.5"/>
               <text class="pin-lbl" x="131" y="324" text-anchor="end" stroke="rgba(8,12,24,0.85)" stroke-width="2.5" paint-order="stroke fill">Palmdale</text>
             </g>
 
             <!-- Victorville -->
-            <g class="map-pin" data-city="Victorville">
+            <g class="map-pin" tabindex="0" role="button" data-city="Victorville">
               <circle class="pin-pulse" cx="212" cy="328" r="5" style="animation-delay:1.2s"/>
               <circle class="pin-dot"   cx="212" cy="328" r="4.5"/>
               <text class="pin-lbl" x="223" y="332" stroke="rgba(8,12,24,0.85)" stroke-width="2.5" paint-order="stroke fill">Victorville</text>
             </g>
 
             <!-- Los Angeles (primary) -->
-            <g class="map-pin" data-city="Los Angeles">
+            <g class="map-pin" tabindex="0" role="button" data-city="Los Angeles">
               <circle class="pin-pulse" cx="100" cy="374" r="7" style="animation-delay:1.5s"/>
               <circle class="pin-pulse" cx="100" cy="374" r="7" style="animation-delay:2.3s;animation-duration:3.2s"/>
               <circle class="pin-dot"   cx="100" cy="374" r="6.5" filter="url(#pinGlow)"/>
@@ -710,49 +717,49 @@
             </g>
 
             <!-- West Covina -->
-            <g class="map-pin" data-city="West Covina">
+            <g class="map-pin" tabindex="0" role="button" data-city="West Covina">
               <circle class="pin-pulse" cx="146" cy="366" r="5" style="animation-delay:1.8s"/>
               <circle class="pin-dot"   cx="146" cy="366" r="4.5"/>
               <text class="pin-lbl" x="135" y="362" text-anchor="end" stroke="rgba(8,12,24,0.85)" stroke-width="2.5" paint-order="stroke fill">West Covina</text>
             </g>
 
             <!-- Riverside -->
-            <g class="map-pin" data-city="Riverside">
+            <g class="map-pin" tabindex="0" role="button" data-city="Riverside">
               <circle class="pin-pulse" cx="176" cy="363" r="5" style="animation-delay:2.1s"/>
               <circle class="pin-dot"   cx="176" cy="363" r="4.5"/>
               <text class="pin-lbl" x="187" y="360" stroke="rgba(8,12,24,0.85)" stroke-width="2.5" paint-order="stroke fill">Riverside</text>
             </g>
 
             <!-- San Bernardino -->
-            <g class="map-pin" data-city="San Bernardino">
+            <g class="map-pin" tabindex="0" role="button" data-city="San Bernardino">
               <circle class="pin-pulse" cx="194" cy="349" r="5" style="animation-delay:2.4s"/>
               <circle class="pin-dot"   cx="194" cy="349" r="4.5"/>
               <text class="pin-lbl" x="205" y="346" stroke="rgba(8,12,24,0.85)" stroke-width="2.5" paint-order="stroke fill">San Bernardino</text>
             </g>
 
             <!-- Anaheim -->
-            <g class="map-pin" data-city="Anaheim">
+            <g class="map-pin" tabindex="0" role="button" data-city="Anaheim">
               <circle class="pin-pulse" cx="138" cy="390" r="5" style="animation-delay:2.7s"/>
               <circle class="pin-dot"   cx="138" cy="390" r="4.5"/>
               <text class="pin-lbl" x="149" y="394" stroke="rgba(8,12,24,0.85)" stroke-width="2.5" paint-order="stroke fill">Anaheim</text>
             </g>
 
             <!-- Palm Springs -->
-            <g class="map-pin" data-city="Palm Springs">
+            <g class="map-pin" tabindex="0" role="button" data-city="Palm Springs">
               <circle class="pin-pulse" cx="220" cy="374" r="5" style="animation-delay:3.0s"/>
               <circle class="pin-dot"   cx="220" cy="374" r="4.5"/>
               <text class="pin-lbl" x="231" y="378" stroke="rgba(8,12,24,0.85)" stroke-width="2.5" paint-order="stroke fill">Palm Springs</text>
             </g>
 
             <!-- Temecula -->
-            <g class="map-pin" data-city="Temecula">
+            <g class="map-pin" tabindex="0" role="button" data-city="Temecula">
               <circle class="pin-pulse" cx="178" cy="410" r="5" style="animation-delay:3.3s"/>
               <circle class="pin-dot"   cx="178" cy="410" r="4.5"/>
               <text class="pin-lbl" x="189" y="414" stroke="rgba(8,12,24,0.85)" stroke-width="2.5" paint-order="stroke fill">Temecula</text>
             </g>
 
             <!-- San Diego (south anchor) -->
-            <g class="map-pin" data-city="San Diego">
+            <g class="map-pin" tabindex="0" role="button" data-city="San Diego">
               <circle class="pin-pulse" cx="162" cy="445" r="6" style="animation-delay:3.6s"/>
               <circle class="pin-pulse" cx="162" cy="445" r="6" style="animation-delay:4.4s;animation-duration:3.2s"/>
               <circle class="pin-dot"   cx="162" cy="445" r="5.5" filter="url(#pinGlow)"/>
@@ -1224,29 +1231,30 @@
       const addrEl   = document.getElementById('tooltipAddress');
       const statusEl = document.getElementById('tooltipStatus');
 
+      function showTooltip(pin) {
+        const mapRect = mapEl.getBoundingClientRect();
+        const pinRect = pin.getBoundingClientRect();
+        cityEl.textContent = pin.dataset.city;
+        tooltip.style.left      = (pinRect.left - mapRect.left + pinRect.width / 2) + 'px';
+        tooltip.style.top       = (pinRect.top  - mapRect.top  - 52) + 'px';
+        tooltip.style.transform = 'translateX(-50%) translateY(6px)';
+        tooltip.classList.add('visible');
+      }
+
       document.querySelectorAll('.map-pin').forEach(pin => {
-        pin.addEventListener('mouseenter', function() {
-          const mapRect = mapEl.getBoundingClientRect();
-          const pinRect = this.getBoundingClientRect();
-          cityEl.textContent = this.dataset.city;
-          const addr = this.dataset.address;
-          if (addr) {
-            addrEl.textContent  = addr;
-            addrEl.style.display = 'block';
-            statusEl.textContent = '★ Our Headquarters';
-          } else {
-            addrEl.style.display = 'none';
-            statusEl.textContent = '✓ Service Available';
-          }
-          const left = pinRect.left - mapRect.left + pinRect.width / 2;
-          const top  = pinRect.top  - mapRect.top  - 52;
-          tooltip.style.left      = left + 'px';
-          tooltip.style.top       = top  + 'px';
-          tooltip.style.transform = 'translateX(-50%) translateY(6px)';
-          tooltip.classList.add('visible');
-        });
-        pin.addEventListener('mouseleave', function() {
-          tooltip.classList.remove('visible');
+        // Set accessible label
+        pin.setAttribute('aria-label', pin.dataset.city + ' — Service Available');
+
+        // Mouse events
+        pin.addEventListener('mouseenter', function() { showTooltip(this); });
+        pin.addEventListener('mouseleave', function() { tooltip.classList.remove('visible'); });
+
+        // Keyboard events
+        pin.addEventListener('focus', function() { showTooltip(this); });
+        pin.addEventListener('blur',  function() { tooltip.classList.remove('visible'); });
+        pin.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); showTooltip(this); }
+          if (e.key === 'Escape') { tooltip.classList.remove('visible'); this.blur(); }
         });
       });
     })();
