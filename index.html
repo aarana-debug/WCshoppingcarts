@@ -569,6 +569,106 @@
     </div>
   </section>
 
+  <!-- ══ GALLERY ══ -->
+  <section class="section gallery-section" id="gallery">
+    <div class="container">
+      <div class="text-center">
+        <span class="section-label">Our Work</span>
+        <h2 class="section-title">See Us In Action</h2>
+        <p class="section-sub">From large-scale cart retrieval to precision welding and wheel replacement — here's what 30+ years of professional service looks like.</p>
+      </div>
+
+      <div class="gallery-grid">
+
+        <!-- Retrieval & Delivery -->
+        <div class="gallery-item gallery-item--wide" onclick="openLightbox(0)">
+          <img src="IMG_9837.jpg" alt="West Coast Shopping Cart Service truck delivering carts at Sprouts Farmers Market" loading="lazy">
+          <div class="gallery-caption">
+            <span class="gallery-tag">Retrieval</span>
+            Cart Delivery at Sprouts Farmers Market
+          </div>
+        </div>
+
+        <div class="gallery-item" onclick="openLightbox(1)">
+          <img src="IMG_0455.jpg" alt="Large collection of recovered shopping carts organized in a parking lot" loading="lazy">
+          <div class="gallery-caption">
+            <span class="gallery-tag">Retrieval</span>
+            Large-Scale Cart Collection
+          </div>
+        </div>
+
+        <div class="gallery-item" onclick="openLightbox(2)">
+          <img src="IMG_1521.jpg" alt="WCSC service truck loaded with recovered shopping carts" loading="lazy">
+          <div class="gallery-caption">
+            <span class="gallery-tag">Transport</span>
+            Same-Day Cart Transport
+          </div>
+        </div>
+
+        <div class="gallery-item" onclick="openLightbox(3)">
+          <img src="image0.jpeg" alt="Shopping carts loaded on retrieval truck at a major retailer" loading="lazy">
+          <div class="gallery-caption">
+            <span class="gallery-tag">Retrieval</span>
+            Fleet Recovery at Major Retailer
+          </div>
+        </div>
+
+        <div class="gallery-item" onclick="openLightbox(4)">
+          <img src="IMG_1315.PNG" alt="WCSC truck loaded with shopping carts outside a store" loading="lazy">
+          <div class="gallery-caption">
+            <span class="gallery-tag">Transport</span>
+            On-Site Cart Pickup
+          </div>
+        </div>
+
+        <!-- Repair -->
+        <div class="gallery-item gallery-item--wide" onclick="openLightbox(5)">
+          <img src="IMG_8186.jpg" alt="West Coast Shopping Cart Service technician welding a shopping cart" loading="lazy">
+          <div class="gallery-caption">
+            <span class="gallery-tag gallery-tag--repair">Repair</span>
+            Professional Cart Welding
+          </div>
+        </div>
+
+        <div class="gallery-item" onclick="openLightbox(6)">
+          <img src="IMG_8055.jpg" alt="New wheels being installed on a shopping cart" loading="lazy">
+          <div class="gallery-caption">
+            <span class="gallery-tag gallery-tag--repair">Repair</span>
+            Wheel Replacement Service
+          </div>
+        </div>
+
+        <div class="gallery-item" onclick="openLightbox(7)">
+          <img src="IMG_8181.jpg" alt="Shopping cart with newly installed wheels ready for service" loading="lazy">
+          <div class="gallery-caption">
+            <span class="gallery-tag gallery-tag--repair">Repair</span>
+            Cart Restoration Complete
+          </div>
+        </div>
+
+        <div class="gallery-item" onclick="openLightbox(8)">
+          <img src="IMG_8053.jpg" alt="Shopping cart wheel assessment before repair" loading="lazy">
+          <div class="gallery-caption">
+            <span class="gallery-tag gallery-tag--repair">Repair</span>
+            Cart Inspection &amp; Assessment
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Lightbox -->
+  <div class="lightbox-overlay" id="lightboxOverlay" onclick="closeLightbox()" role="dialog" aria-modal="true" aria-label="Photo viewer">
+    <button class="lightbox-close" onclick="closeLightbox()" aria-label="Close">&times;</button>
+    <button class="lightbox-prev" onclick="lightboxNav(-1,event)" aria-label="Previous photo">&#8249;</button>
+    <button class="lightbox-next" onclick="lightboxNav(1,event)" aria-label="Next photo">&#8250;</button>
+    <div class="lightbox-inner" onclick="event.stopPropagation()">
+      <img id="lightboxImg" src="" alt="">
+      <div id="lightboxCaption" class="lightbox-caption"></div>
+    </div>
+  </div>
+
   <!-- ══ SERVICE AREA ══ -->
   <section class="section area-section" id="area">
     <div class="container">
@@ -1456,6 +1556,46 @@
       if (e.key === 'Escape') {
         document.querySelectorAll('.legal-overlay.visible').forEach(el => closeModal(el.id));
       }
+    });
+
+    // Gallery lightbox
+    const galleryImgs = [
+      { src: 'IMG_9837.jpg',  cap: 'Cart Delivery at Sprouts Farmers Market' },
+      { src: 'IMG_0455.jpg',  cap: 'Large-Scale Cart Collection' },
+      { src: 'IMG_1521.jpg',  cap: 'Same-Day Cart Transport' },
+      { src: 'image0.jpeg',   cap: 'Fleet Recovery at Major Retailer' },
+      { src: 'IMG_1315.PNG',  cap: 'On-Site Cart Pickup' },
+      { src: 'IMG_8186.jpg',  cap: 'Professional Cart Welding' },
+      { src: 'IMG_8055.jpg',  cap: 'Wheel Replacement Service' },
+      { src: 'IMG_8181.jpg',  cap: 'Cart Restoration Complete' },
+      { src: 'IMG_8053.jpg',  cap: 'Cart Inspection & Assessment' },
+    ];
+    let lbIndex = 0;
+
+    function openLightbox(i) {
+      lbIndex = i;
+      const overlay = document.getElementById('lightboxOverlay');
+      document.getElementById('lightboxImg').src = galleryImgs[i].src;
+      document.getElementById('lightboxImg').alt = galleryImgs[i].cap;
+      document.getElementById('lightboxCaption').textContent = galleryImgs[i].cap;
+      overlay.classList.add('visible');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox() {
+      document.getElementById('lightboxOverlay').classList.remove('visible');
+      document.body.style.overflow = '';
+    }
+    function lightboxNav(dir, e) {
+      e.stopPropagation();
+      lbIndex = (lbIndex + dir + galleryImgs.length) % galleryImgs.length;
+      openLightbox(lbIndex);
+    }
+    document.addEventListener('keydown', function(e) {
+      const overlay = document.getElementById('lightboxOverlay');
+      if (!overlay.classList.contains('visible')) return;
+      if (e.key === 'ArrowRight') lightboxNav(1, e);
+      if (e.key === 'ArrowLeft')  lightboxNav(-1, e);
+      if (e.key === 'Escape')     closeLightbox();
     });
 
     // Cookie banner
