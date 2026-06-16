@@ -1269,6 +1269,41 @@ img { max-width: 100%; display: block; }
 .rpt-required  { color: var(--orange); font-weight: 700; }
 .rpt-submit    { width: 100%; justify-content: center; display: flex; margin-top: 8px; }
 .rpt-note      { text-align: center; font-size: .8rem; color: var(--gray); margin-top: 12px; }
+
+/* City spotlight inside report modal */
+.rpt-cities {
+  background: rgba(37,99,235,.06);
+  border: 1px solid rgba(37,99,235,.18);
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin-bottom: 22px;
+}
+.rpt-cities-label {
+  font-size: .75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--orange);
+  margin-bottom: 10px;
+}
+.rpt-city-cards {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.rpt-city-card {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--white);
+  border: 1.5px solid rgba(37,99,235,.25);
+  border-radius: 50px;
+  padding: 6px 14px;
+  font-size: .84rem;
+  font-weight: 600;
+  color: var(--navy);
+}
+.rpt-city-card svg { color: var(--orange); flex-shrink: 0; }
 .rpt-success {
   display: flex;
   flex-direction: column;
