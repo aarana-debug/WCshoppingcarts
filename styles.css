@@ -967,6 +967,17 @@ img { max-width: 100%; display: block; }
   overflow: visible;
 }
 
+.hero-cart-img {
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  border-radius: 16px;
+  object-fit: cover;
+  display: block;
+  margin: 0 auto;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.45);
+}
+
 /* Cart float */
 .cart-body {
   animation: cartFloat 3.6s ease-in-out infinite;
