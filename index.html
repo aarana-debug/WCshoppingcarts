@@ -401,11 +401,18 @@
         <p class="section-sub">Abandoned shopping carts cost retailers thousands every year in lost inventory, liability risk, and customer complaints. Watch to learn why professional cart collection is a must — and why West Coast Shopping Cart Service is the right team to handle it for you.</p>
       </div>
       <div class="video-wrap">
-        <video id="heroVideo" controls playsinline preload="metadata" muted
-          aria-label="West Coast Shopping Cart Service promotional video">
-          <source src="Cart video 2.mp4" type="video/mp4">
-        </video>
-        <button class="video-unmute-btn" id="videoUnmuteBtn" aria-label="Unmute video">
+        <div style="position:relative;padding-top:56.25%;">
+          <iframe
+            src="https://customer-mkkulwzbmrpyvgfk.cloudflarestream.com/44f0ab59cd80d40b22bd77ae2d180c58/iframe?poster=https%3A%2F%2Fcustomer-mkkulwzbmrpyvgfk.cloudflarestream.com%2F44f0ab59cd80d40b22bd77ae2d180c58%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600"
+            loading="lazy"
+            style="border:none;position:absolute;top:0;left:0;height:100%;width:100%;"
+            allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
+            allowfullscreen="true"
+            aria-label="West Coast Shopping Cart Service promotional video"
+            title="West Coast Shopping Cart Service promotional video"
+          ></iframe>
+        </div>
+        <button class="video-unmute-btn" id="videoUnmuteBtn" aria-label="Unmute video" style="display:none">
           <!-- Muted icon (shown by default) -->
           <svg class="icon-muted" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
             <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
@@ -1305,45 +1312,7 @@
       });
     });
 
-    // Autoplay video when scrolled into view; unmute button
-    (function() {
-      const vid = document.getElementById('heroVideo');
-      const btn = document.getElementById('videoUnmuteBtn');
-      if (!vid || !btn) return;
-
-      function syncBtn() {
-        const muted = vid.muted || vid.volume === 0;
-        btn.querySelector('.icon-muted').style.display = muted ? '' : 'none';
-        btn.querySelector('.icon-sound').style.display = muted ? 'none' : '';
-        btn.querySelector('.video-unmute-label').textContent = muted ? 'Tap for Sound' : 'Mute';
-        btn.classList.toggle('is-unmuted', !muted);
-      }
-
-      btn.addEventListener('click', function() {
-        if (vid.muted) {
-          vid.muted = false;
-          vid.volume = 1;
-          // browser may need a play() call after unmuting
-          if (vid.paused) vid.play().catch(() => {});
-        } else {
-          vid.muted = true;
-        }
-        syncBtn();
-      });
-
-      vid.addEventListener('volumechange', syncBtn);
-
-      const vidObserver = new IntersectionObserver(entries => {
-        if (entries[0].isIntersecting) {
-          vid.play().catch(() => {});
-        } else {
-          vid.pause();
-        }
-      }, { threshold: 0.5 });
-      vidObserver.observe(vid);
-
-      syncBtn();
-    })();
+    // Video is now hosted on Cloudflare Stream (iframe embed)
 
     // Interactive CA map tooltips
     (function() {
