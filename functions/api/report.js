@@ -15,7 +15,7 @@ export async function onRequestPost({ request, env }) {
       cart_count: data.cart_count || '',
       notes:      data.notes      || '',
     };
-    await env.FORM_SUBMISSIONS.put(key, JSON.stringify(submission));
+    await env.KV.put(key, JSON.stringify(submission));
     return new Response(JSON.stringify({ ok: true }), {
       headers: { 'Content-Type': 'application/json' },
     });

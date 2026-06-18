@@ -23,10 +23,10 @@ export async function onRequest({ request, env }) {
 
   // GET — list all submissions
   if (request.method === 'GET') {
-    const list = await env.FORM_SUBMISSIONS.list();
+    const list = await env.KV.list();
     const items = await Promise.all(
       list.keys.map(async ({ name }) => {
-        const val = await env.FORM_SUBMISSIONS.get(name);
+        const val = await env.KV.get(name);
         return val ? JSON.parse(val) : null;
       })
     );
@@ -43,10 +43,10 @@ export async function onRequest({ request, env }) {
     const url = new URL(request.url);
     const key = url.searchParams.get('key');
     if (key === '__all__') {
-      const list = await env.FORM_SUBMISSIONS.list();
-      await Promise.all(list.keys.map(({ name }) => env.FORM_SUBMISSIONS.delete(name)));
+      const list = await env.KV.list();
+      await Promise.all(list.keys.map(({ name }) => env.KV.delete(name)));
     } else if (key) {
-      await env.FORM_SUBMISSIONS.delete(key);
+      await env.KV.delete(key);
     }
     return new Response(JSON.stringify({ ok: true }), {
       headers: { ...CORS, 'Content-Type': 'application/json' },
