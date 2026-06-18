@@ -55,7 +55,7 @@ body { font-family: 'Roboto', sans-serif; background: var(--light); color: #1118
 .login-error { color: var(--red); font-size: .82rem; margin-top: 10px; text-align: center; display: none; }
 
 /* ── App shell ── */
-#appShell { display: none; }
+#appShell { display: block; }
 
 .app-header {
   background: var(--navy); color: var(--white);
@@ -194,7 +194,7 @@ input[type="checkbox"] { width: 15px; height: 15px; cursor: pointer; accent-colo
 <body>
 
 <!-- ── Login ── -->
-<div id="loginScreen">
+<div id="loginScreen" style="display:none">
   <div class="login-box">
     <div class="login-logo">
       <img src="wcshopping cart logo.webp" alt="West Coast Shopping Cart Service">
@@ -280,36 +280,14 @@ let allData   = [];
 let filtered  = [];
 let activeFilter = 'all';
 
-/* ── Auth ── */
-function login() {
-  const key = document.getElementById('adminKey').value.trim();
-  if (!key) return;
-  sessionStorage.setItem('adminKey', key);
-  verifyAndLoad(key);
-}
-document.getElementById('adminKey').addEventListener('keydown', e => { if (e.key === 'Enter') login(); });
-
-function logout() {
-  sessionStorage.removeItem('adminKey');
-  location.reload();
-}
-
-async function verifyAndLoad(key) {
-  const res = await fetch(API, { headers: { Authorization: `Bearer ${key}` } });
-  if (res.status === 401) {
-    sessionStorage.removeItem('adminKey');
-    document.getElementById('loginError').style.display = 'block';
-    return;
-  }
-  document.getElementById('loginScreen').style.display = 'none';
-  document.getElementById('appShell').style.display = 'block';
+/* ── Load on page open ── */
+async function loadData() {
+  const res = await fetch(API);
   allData = await res.json();
   render();
 }
 
-/* ── Auto-login if key is stored ── */
-const storedKey = sessionStorage.getItem('adminKey');
-if (storedKey) verifyAndLoad(storedKey);
+loadData();
 
 /* ── Filter ── */
 function setFilter(type, btn) {
@@ -388,8 +366,8 @@ function toggleAll(cb) {
 /* ── Delete ── */
 async function deleteOne(key) {
   if (!confirm('Delete this submission?')) return;
-  await apiFetch(`${API}?key=${encodeURIComponent(key)}`, 'DELETE');
-  allData = allData.filter(r => r.key !== key);
+  await apiFetch(`${API}?id=${encodeURIComponent(key)}`, 'DELETE');
+  allData = allData.filter(r => r.id !== key);
   render();
   toast('Submission deleted.');
 }
@@ -398,8 +376,8 @@ async function deleteSelected() {
   const keys = [...document.querySelectorAll('.row-check:checked')].map(c => c.dataset.key);
   if (!keys.length) { toast('No rows selected.', true); return; }
   if (!confirm(`Delete ${keys.length} submission(s)?`)) return;
-  await Promise.all(keys.map(k => apiFetch(`${API}?key=${encodeURIComponent(k)}`, 'DELETE')));
-  allData = allData.filter(r => !keys.includes(r.key));
+  await Promise.all(keys.map(k => apiFetch(`${API}?id=${encodeURIComponent(k)}`, 'DELETE')));
+  allData = allData.filter(r => !keys.includes(String(r.id)));
   render();
   toast(`${keys.length} submission(s) deleted.`);
 }
@@ -407,17 +385,14 @@ async function deleteSelected() {
 async function deleteAll() {
   if (!allData.length) { toast('Nothing to delete.', true); return; }
   if (!confirm(`Delete ALL ${allData.length} submissions? This cannot be undone.`)) return;
-  await apiFetch(`${API}?key=__all__`, 'DELETE');
+  await apiFetch(`${API}?id=__all__`, 'DELETE');
   allData = [];
   render();
   toast('All submissions cleared.');
 }
 
 function apiFetch(url, method) {
-  return fetch(url, {
-    method,
-    headers: { Authorization: `Bearer ${sessionStorage.getItem('adminKey')}` },
-  });
+  return fetch(url, { method });
 }
 
 /* ── CSV Export ── */
