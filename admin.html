@@ -164,6 +164,35 @@ input[type="checkbox"] { width: 15px; height: 15px; cursor: pointer; accent-colo
 .empty-state svg { opacity: .3; margin-bottom: 12px; }
 .empty-state p { font-size: .95rem; }
 
+/* ── Cards ── */
+.card {
+  background: var(--white); border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.06);
+  margin-bottom: 10px; overflow: hidden;
+  border: 1px solid var(--border);
+}
+.card-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 18px; cursor: pointer; gap: 12px;
+  transition: background .15s;
+}
+.card-header:hover { background: #f9fafb; }
+.card-header-left  { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.card-header-right { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+.card-name  { font-weight: 600; font-size: .9rem; }
+.card-city  { font-size: .8rem; color: var(--gray); background: var(--light); padding: 2px 8px; border-radius: 50px; }
+.card-date  { font-size: .78rem; color: var(--gray); white-space: nowrap; }
+.card-chevron { font-size: .9rem; color: var(--gray); }
+.card-body  { padding: 0 18px 18px; border-top: 1px solid var(--border); }
+.detail-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 12px; padding-top: 14px;
+}
+.detail-item { display: flex; flex-direction: column; gap: 3px; }
+.detail-item--full { grid-column: 1 / -1; }
+.detail-lbl { font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--gray); }
+.detail-item span:last-child { font-size: .88rem; color: #111827; }
+
 /* Loading */
 .loading { text-align: center; padding: 48px; color: var(--gray); }
 .spinner {
@@ -315,37 +344,54 @@ function render() {
   const isReport  = activeFilter === 'report';
   const showAll   = activeFilter === 'all';
 
-  let headers = `<th class="td-check"><input type="checkbox" id="checkAll" onclick="toggleAll(this)"></th>
-    <th>Date</th>`;
-  if (showAll) headers += `<th>Type</th>`;
-  headers += `<th>Name</th>`;
-  if (!isReport) headers += `<th>Email</th><th>Phone</th><th>Business</th><th>Service</th>`;
-  if (!isContact) headers += `<th>Contact</th><th>Store</th><th>Location</th><th>Carts</th>`;
-  headers += `<th>Message / Notes</th><th></th>`;
-
-  const rows = filtered.map((r, i) => {
+  const rows = filtered.map((r) => {
     const date = new Date(r.timestamp).toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric', hour:'numeric', minute:'2-digit' });
-    const name = r.type === 'contact' ? `${r.firstName} ${r.lastName}` : r.name;
-    let cells = `<td class="td-check"><input type="checkbox" class="row-check" data-key="${r.key}"></td>
-      <td class="td-date">${date}</td>`;
-    if (showAll) cells += `<td><span class="badge badge--${r.type}">${r.type === 'contact' ? 'Lead' : 'Report'}</span></td>`;
-    cells += `<td class="td-name">${esc(name)}</td>`;
-    if (!isReport) {
-      cells += `<td>${esc(r.email||'')}</td><td>${esc(r.phone||'')}</td><td>${esc(r.businessName||'')}</td><td>${esc(r.service||'')}</td>`;
-    }
-    if (!isContact) {
-      cells += `<td>${esc(r.contact||'')}</td><td>${esc(r.store_name||'')}</td><td>${esc(r.location||'')}</td><td>${esc(r.cart_count||'')}</td>`;
-    }
-    const msg = r.type === 'contact' ? (r.message||'') : (r.notes||'');
-    cells += `<td class="td-msg" title="${esc(msg)}">${esc(msg)}</td>
-      <td><button class="del-btn" onclick="deleteOne('${r.key}')">Delete</button></td>`;
-    return `<tr>${cells}</tr>`;
+    const name = r.type === 'contact' ? `${r.first_name||''} ${r.last_name||''}`.trim() : (r.name||'');
+    const city = r.city || '';
+    const isC  = r.type === 'contact';
+
+    const detail = isC ? `
+      <div class="detail-grid">
+        <div class="detail-item"><span class="detail-lbl">Email</span><span>${esc(r.email||'—')}</span></div>
+        <div class="detail-item"><span class="detail-lbl">Phone</span><span>${esc(r.phone||'—')}</span></div>
+        <div class="detail-item"><span class="detail-lbl">City</span><span>${esc(city||'—')}</span></div>
+        <div class="detail-item"><span class="detail-lbl">Business</span><span>${esc(r.business_name||'—')}</span></div>
+        <div class="detail-item"><span class="detail-lbl">Service</span><span>${esc(r.service||'—')}</span></div>
+        <div class="detail-item detail-item--full"><span class="detail-lbl">Message</span><span>${esc(r.message||'—')}</span></div>
+      </div>` : `
+      <div class="detail-grid">
+        <div class="detail-item"><span class="detail-lbl">Contact</span><span>${esc(r.contact||'—')}</span></div>
+        <div class="detail-item"><span class="detail-lbl">City</span><span>${esc(city||'—')}</span></div>
+        <div class="detail-item"><span class="detail-lbl">Store</span><span>${esc(r.store_name||'—')}</span></div>
+        <div class="detail-item"><span class="detail-lbl">Location</span><span>${esc(r.location||'—')}</span></div>
+        <div class="detail-item"><span class="detail-lbl"># Carts</span><span>${esc(r.cart_count||'—')}</span></div>
+        <div class="detail-item detail-item--full"><span class="detail-lbl">Notes</span><span>${esc(r.notes||'—')}</span></div>
+      </div>`;
+
+    return `<div class="card" id="card-${r.id}">
+      <div class="card-header" onclick="toggleCard(${r.id})">
+        <div class="card-header-left">
+          <input type="checkbox" class="row-check" data-key="${r.id}" onclick="event.stopPropagation()">
+          <span class="badge badge--${r.type}">${isC ? 'Lead' : 'Report'}</span>
+          <span class="card-name">${esc(name)}</span>
+          ${city ? `<span class="card-city">${esc(city)}</span>` : ''}
+        </div>
+        <div class="card-header-right">
+          <span class="card-date">${date}</span>
+          <button class="del-btn" onclick="event.stopPropagation();deleteOne(${r.id})">Delete</button>
+          <span class="card-chevron" id="chev-${r.id}">▸</span>
+        </div>
+      </div>
+      <div class="card-body" id="body-${r.id}" style="display:none">
+        ${detail}
+      </div>
+    </div>`;
   }).join('');
 
-  wrap.innerHTML = `<div class="table-scroll"><table>
-    <thead><tr>${headers}</tr></thead>
-    <tbody>${rows}</tbody>
-  </table></div>`;
+  wrap.innerHTML = rows || `<div class="empty-state">
+    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/></svg>
+    <p>No submissions yet.</p>
+  </div>`;
 }
 
 function updateStats() {
@@ -356,6 +402,15 @@ function updateStats() {
 
 function esc(str) {
   return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+/* ── Card expand ── */
+function toggleCard(id) {
+  const body = document.getElementById(`body-${id}`);
+  const chev = document.getElementById(`chev-${id}`);
+  const open = body.style.display === 'none';
+  body.style.display = open ? 'block' : 'none';
+  chev.textContent = open ? '▾' : '▸';
 }
 
 /* ── Select all ── */
