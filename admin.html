@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — West Coast Shopping Cart Service</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --navy:   #080c18;
+  --blue:   #1a5fb4;
+  --accent: #2563eb;
+  --white:  #ffffff;
+  --light:  #f4f7fb;
+  --border: #dde4ee;
+  --gray:   #6b7280;
+  --green:  #16a34a;
+  --red:    #dc2626;
+  --yellow: #d97706;
+}
+body { font-family: 'Roboto', sans-serif; background: var(--light); color: #111827; min-height: 100vh; }
+
+/* ── Login ── */
+#loginScreen {
+  display: flex; align-items: center; justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(140deg, #020408 0%, #060f20 40%, #0d2255 75%, #1a4ec4 100%);
+}
+.login-box {
+  background: var(--white); border-radius: 16px;
+  padding: 48px 40px; width: 100%; max-width: 400px;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.35);
+}
+.login-logo { text-align: center; margin-bottom: 28px; }
+.login-logo img { height: 64px; object-fit: contain; }
+.login-title { font-size: 1.25rem; font-weight: 700; color: var(--navy); text-align: center; margin-bottom: 6px; }
+.login-sub   { font-size: .875rem; color: var(--gray); text-align: center; margin-bottom: 28px; }
+.login-box label { font-size: .8rem; font-weight: 600; color: #374151; display: block; margin-bottom: 6px; }
+.login-box input {
+  width: 100%; padding: 11px 14px; border: 1.5px solid var(--border);
+  border-radius: 8px; font-size: .9rem; font-family: inherit;
+  outline: none; transition: border-color .2s;
+}
+.login-box input:focus { border-color: var(--accent); }
+.login-btn {
+  width: 100%; margin-top: 16px; padding: 13px;
+  background: var(--accent); color: var(--white);
+  border: none; border-radius: 8px; font-size: .95rem;
+  font-weight: 700; font-family: inherit; cursor: pointer;
+  transition: background .2s;
+}
+.login-btn:hover { background: #1d4ed8; }
+.login-error { color: var(--red); font-size: .82rem; margin-top: 10px; text-align: center; display: none; }
+
+/* ── App shell ── */
+#appShell { display: none; }
+
+.app-header {
+  background: var(--navy); color: var(--white);
+  padding: 0 28px; height: 60px;
+  display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top: 0; z-index: 50;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+}
+.app-header-left { display: flex; align-items: center; gap: 14px; }
+.app-header-left img { height: 36px; object-fit: contain; }
+.app-header-title { font-size: 1rem; font-weight: 700; letter-spacing: .02em; }
+.app-header-sub   { font-size: .75rem; opacity: .6; }
+.logout-btn {
+  background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.2);
+  color: var(--white); padding: 7px 16px; border-radius: 6px;
+  font-size: .82rem; font-weight: 600; cursor: pointer; font-family: inherit;
+  transition: background .2s;
+}
+.logout-btn:hover { background: rgba(255,255,255,.22); }
+
+.app-body { max-width: 1300px; margin: 0 auto; padding: 28px 24px; }
+
+/* ── Stats ── */
+.stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 28px; }
+.stat-card {
+  background: var(--white); border-radius: 12px; padding: 20px 24px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.06); border-left: 4px solid transparent;
+}
+.stat-card--total  { border-color: var(--accent); }
+.stat-card--contact{ border-color: var(--green); }
+.stat-card--report { border-color: var(--yellow); }
+.stat-label { font-size: .75rem; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--gray); margin-bottom: 6px; }
+.stat-num   { font-size: 2rem; font-weight: 700; color: var(--navy); }
+
+/* ── Toolbar ── */
+.toolbar {
+  background: var(--white); border-radius: 12px;
+  padding: 16px 20px; margin-bottom: 16px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.06);
+  display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+}
+.filter-tabs { display: flex; gap: 6px; }
+.tab-btn {
+  padding: 7px 16px; border-radius: 6px; border: 1.5px solid var(--border);
+  background: transparent; font-size: .83rem; font-weight: 600;
+  cursor: pointer; font-family: inherit; color: var(--gray);
+  transition: all .18s;
+}
+.tab-btn.active { background: var(--accent); border-color: var(--accent); color: var(--white); }
+.tab-btn:hover:not(.active) { border-color: var(--accent); color: var(--accent); }
+
+.toolbar-actions { display: flex; gap: 8px; }
+.action-btn {
+  padding: 8px 16px; border-radius: 7px; border: none;
+  font-size: .83rem; font-weight: 600; cursor: pointer; font-family: inherit;
+  display: flex; align-items: center; gap: 6px; transition: background .18s;
+}
+.btn-export { background: #d1fae5; color: #065f46; }
+.btn-export:hover { background: #a7f3d0; }
+.btn-delete-sel { background: #fee2e2; color: var(--red); }
+.btn-delete-sel:hover { background: #fecaca; }
+.btn-delete-all { background: #fee2e2; color: var(--red); }
+.btn-delete-all:hover { background: #fecaca; }
+
+/* ── Table ── */
+.table-wrap {
+  background: var(--white); border-radius: 12px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.06); overflow: hidden;
+}
+.table-scroll { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: .84rem; }
+thead th {
+  background: #f9fafb; padding: 12px 14px;
+  text-align: left; font-size: .73rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .07em; color: var(--gray);
+  border-bottom: 1px solid var(--border); white-space: nowrap;
+}
+tbody tr { border-bottom: 1px solid #f3f4f6; transition: background .12s; }
+tbody tr:hover { background: #f9fafb; }
+tbody tr:last-child { border-bottom: none; }
+td { padding: 12px 14px; vertical-align: top; }
+td.td-check { width: 40px; }
+input[type="checkbox"] { width: 15px; height: 15px; cursor: pointer; accent-color: var(--accent); }
+
+.badge {
+  display: inline-block; padding: 3px 9px; border-radius: 50px;
+  font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em;
+}
+.badge--contact { background: #dcfce7; color: #15803d; }
+.badge--report  { background: #fef3c7; color: #92400e; }
+
+.td-msg { max-width: 220px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--gray); }
+.td-name { font-weight: 600; white-space: nowrap; }
+.td-date { white-space: nowrap; color: var(--gray); font-size: .78rem; }
+
+.del-btn {
+  background: none; border: none; color: #f87171; cursor: pointer;
+  padding: 4px 8px; border-radius: 4px; font-size: .8rem; font-weight: 600;
+  transition: background .15s;
+}
+.del-btn:hover { background: #fee2e2; }
+
+.empty-state {
+  text-align: center; padding: 60px 20px; color: var(--gray);
+}
+.empty-state svg { opacity: .3; margin-bottom: 12px; }
+.empty-state p { font-size: .95rem; }
+
+/* Loading */
+.loading { text-align: center; padding: 48px; color: var(--gray); }
+.spinner {
+  width: 32px; height: 32px; margin: 0 auto 12px;
+  border: 3px solid var(--border); border-top-color: var(--accent);
+  border-radius: 50%; animation: spin .7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Toast */
+.toast {
+  position: fixed; bottom: 24px; right: 24px;
+  background: var(--navy); color: var(--white);
+  padding: 12px 20px; border-radius: 8px; font-size: .88rem; font-weight: 500;
+  box-shadow: 0 8px 24px rgba(0,0,0,.3); z-index: 9999;
+  transform: translateY(80px); opacity: 0; transition: all .3s ease;
+}
+.toast.show { transform: translateY(0); opacity: 1; }
+.toast.toast--err { background: var(--red); }
+
+@media (max-width: 700px) {
+  .stats-row { grid-template-columns: 1fr; }
+  .toolbar { flex-direction: column; align-items: flex-start; }
+  .app-body { padding: 16px 12px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── Login ── -->
+<div id="loginScreen">
+  <div class="login-box">
+    <div class="login-logo">
+      <img src="wcshopping cart logo.webp" alt="West Coast Shopping Cart Service">
+    </div>
+    <div class="login-title">Admin Dashboard</div>
+    <div class="login-sub">Enter your admin key to continue</div>
+    <label for="adminKey">Admin Key</label>
+    <input type="password" id="adminKey" placeholder="••••••••••••" autocomplete="current-password">
+    <button class="login-btn" onclick="login()">Sign In</button>
+    <div class="login-error" id="loginError">Incorrect key — please try again.</div>
+  </div>
+</div>
+
+<!-- ── App ── -->
+<div id="appShell">
+  <header class="app-header">
+    <div class="app-header-left">
+      <img src="wcshopping cart logo.webp" alt="WCSC">
+      <div>
+        <div class="app-header-title">West Coast Shopping Cart Service</div>
+        <div class="app-header-sub">Form Submissions Dashboard</div>
+      </div>
+    </div>
+    <button class="logout-btn" onclick="logout()">Sign Out</button>
+  </header>
+
+  <div class="app-body">
+    <!-- Stats -->
+    <div class="stats-row">
+      <div class="stat-card stat-card--total">
+        <div class="stat-label">Total Submissions</div>
+        <div class="stat-num" id="statTotal">—</div>
+      </div>
+      <div class="stat-card stat-card--contact">
+        <div class="stat-label">Contact Leads</div>
+        <div class="stat-num" id="statContact">—</div>
+      </div>
+      <div class="stat-card stat-card--report">
+        <div class="stat-label">Cart Reports</div>
+        <div class="stat-num" id="statReport">—</div>
+      </div>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="toolbar">
+      <div class="filter-tabs">
+        <button class="tab-btn active" onclick="setFilter('all', this)">All</button>
+        <button class="tab-btn" onclick="setFilter('contact', this)">Contact Leads</button>
+        <button class="tab-btn" onclick="setFilter('report', this)">Cart Reports</button>
+      </div>
+      <div class="toolbar-actions">
+        <button class="action-btn btn-export" onclick="exportCSV()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Export CSV
+        </button>
+        <button class="action-btn btn-delete-sel" onclick="deleteSelected()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></svg>
+          Delete Selected
+        </button>
+        <button class="action-btn btn-delete-all" onclick="deleteAll()">
+          Clear All
+        </button>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <div class="table-wrap">
+      <div id="tableContent">
+        <div class="loading">
+          <div class="spinner"></div>
+          <p>Loading submissions…</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const API = '/api/submissions';
+let allData   = [];
+let filtered  = [];
+let activeFilter = 'all';
+
+/* ── Auth ── */
+function login() {
+  const key = document.getElementById('adminKey').value.trim();
+  if (!key) return;
+  sessionStorage.setItem('adminKey', key);
+  verifyAndLoad(key);
+}
+document.getElementById('adminKey').addEventListener('keydown', e => { if (e.key === 'Enter') login(); });
+
+function logout() {
+  sessionStorage.removeItem('adminKey');
+  location.reload();
+}
+
+async function verifyAndLoad(key) {
+  const res = await fetch(API, { headers: { Authorization: `Bearer ${key}` } });
+  if (res.status === 401) {
+    sessionStorage.removeItem('adminKey');
+    document.getElementById('loginError').style.display = 'block';
+    return;
+  }
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('appShell').style.display = 'block';
+  allData = await res.json();
+  render();
+}
+
+/* ── Auto-login if key is stored ── */
+const storedKey = sessionStorage.getItem('adminKey');
+if (storedKey) verifyAndLoad(storedKey);
+
+/* ── Filter ── */
+function setFilter(type, btn) {
+  activeFilter = type;
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  render();
+}
+
+/* ── Render ── */
+function render() {
+  filtered = activeFilter === 'all' ? allData : allData.filter(r => r.type === activeFilter);
+  updateStats();
+
+  const wrap = document.getElementById('tableContent');
+  if (!filtered.length) {
+    wrap.innerHTML = `<div class="empty-state">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/></svg>
+      <p>No submissions yet.</p>
+    </div>`;
+    return;
+  }
+
+  const isContact = activeFilter === 'contact';
+  const isReport  = activeFilter === 'report';
+  const showAll   = activeFilter === 'all';
+
+  let headers = `<th class="td-check"><input type="checkbox" id="checkAll" onclick="toggleAll(this)"></th>
+    <th>Date</th>`;
+  if (showAll) headers += `<th>Type</th>`;
+  headers += `<th>Name</th>`;
+  if (!isReport) headers += `<th>Email</th><th>Phone</th><th>Business</th><th>Service</th>`;
+  if (!isContact) headers += `<th>Contact</th><th>Store</th><th>Location</th><th>Carts</th>`;
+  headers += `<th>Message / Notes</th><th></th>`;
+
+  const rows = filtered.map((r, i) => {
+    const date = new Date(r.timestamp).toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric', hour:'numeric', minute:'2-digit' });
+    const name = r.type === 'contact' ? `${r.firstName} ${r.lastName}` : r.name;
+    let cells = `<td class="td-check"><input type="checkbox" class="row-check" data-key="${r.key}"></td>
+      <td class="td-date">${date}</td>`;
+    if (showAll) cells += `<td><span class="badge badge--${r.type}">${r.type === 'contact' ? 'Lead' : 'Report'}</span></td>`;
+    cells += `<td class="td-name">${esc(name)}</td>`;
+    if (!isReport) {
+      cells += `<td>${esc(r.email||'')}</td><td>${esc(r.phone||'')}</td><td>${esc(r.businessName||'')}</td><td>${esc(r.service||'')}</td>`;
+    }
+    if (!isContact) {
+      cells += `<td>${esc(r.contact||'')}</td><td>${esc(r.store_name||'')}</td><td>${esc(r.location||'')}</td><td>${esc(r.cart_count||'')}</td>`;
+    }
+    const msg = r.type === 'contact' ? (r.message||'') : (r.notes||'');
+    cells += `<td class="td-msg" title="${esc(msg)}">${esc(msg)}</td>
+      <td><button class="del-btn" onclick="deleteOne('${r.key}')">Delete</button></td>`;
+    return `<tr>${cells}</tr>`;
+  }).join('');
+
+  wrap.innerHTML = `<div class="table-scroll"><table>
+    <thead><tr>${headers}</tr></thead>
+    <tbody>${rows}</tbody>
+  </table></div>`;
+}
+
+function updateStats() {
+  document.getElementById('statTotal').textContent   = allData.length;
+  document.getElementById('statContact').textContent = allData.filter(r => r.type === 'contact').length;
+  document.getElementById('statReport').textContent  = allData.filter(r => r.type === 'report').length;
+}
+
+function esc(str) {
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+/* ── Select all ── */
+function toggleAll(cb) {
+  document.querySelectorAll('.row-check').forEach(c => c.checked = cb.checked);
+}
+
+/* ── Delete ── */
+async function deleteOne(key) {
+  if (!confirm('Delete this submission?')) return;
+  await apiFetch(`${API}?key=${encodeURIComponent(key)}`, 'DELETE');
+  allData = allData.filter(r => r.key !== key);
+  render();
+  toast('Submission deleted.');
+}
+
+async function deleteSelected() {
+  const keys = [...document.querySelectorAll('.row-check:checked')].map(c => c.dataset.key);
+  if (!keys.length) { toast('No rows selected.', true); return; }
+  if (!confirm(`Delete ${keys.length} submission(s)?`)) return;
+  await Promise.all(keys.map(k => apiFetch(`${API}?key=${encodeURIComponent(k)}`, 'DELETE')));
+  allData = allData.filter(r => !keys.includes(r.key));
+  render();
+  toast(`${keys.length} submission(s) deleted.`);
+}
+
+async function deleteAll() {
+  if (!allData.length) { toast('Nothing to delete.', true); return; }
+  if (!confirm(`Delete ALL ${allData.length} submissions? This cannot be undone.`)) return;
+  await apiFetch(`${API}?key=__all__`, 'DELETE');
+  allData = [];
+  render();
+  toast('All submissions cleared.');
+}
+
+function apiFetch(url, method) {
+  return fetch(url, {
+    method,
+    headers: { Authorization: `Bearer ${sessionStorage.getItem('adminKey')}` },
+  });
+}
+
+/* ── CSV Export ── */
+function exportCSV() {
+  if (!filtered.length) { toast('No data to export.', true); return; }
+
+  const contactCols = ['id','timestamp','type','firstName','lastName','email','phone','businessName','service','message'];
+  const reportCols  = ['id','timestamp','type','name','contact','store_name','location','cart_count','notes'];
+  const allCols     = [...new Set([...contactCols, ...reportCols])];
+
+  const header = allCols.join(',');
+  const rows = filtered.map(r =>
+    allCols.map(col => {
+      const val = r[col] != null ? String(r[col]) : '';
+      return `"${val.replace(/"/g, '""')}"`;
+    }).join(',')
+  );
+
+  const csv = [header, ...rows].join('\r\n');
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `wcsc-submissions-${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();
+  toast(`Exported ${filtered.length} row(s).`);
+}
+
+/* ── Toast ── */
+function toast(msg, isErr) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = 'toast show' + (isErr ? ' toast--err' : '');
+  setTimeout(() => el.className = 'toast', 3000);
+}
+</script>
+</body>
+</html>

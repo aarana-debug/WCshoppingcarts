@@ -1208,8 +1208,7 @@
             </div>
           </div>
         </div>
-        <form id="reportForm" action="https://formspree.io/f/jose@wcshoppingcart.com" method="POST">
-          <input type="hidden" name="_subject" value="Abandoned Cart Report — West Coast Shopping Cart Service">
+        <form id="reportForm">
           <div class="form-row">
             <div class="form-group">
               <label for="rptName">Your Name</label>
@@ -1275,21 +1274,39 @@
       }
     }
 
-    // Contact form (demo — shows success message)
-    function handleSubmit(e) {
+    // Contact form — POST to Cloudflare Pages Function
+    async function handleSubmit(e) {
       e.preventDefault();
       const form = document.getElementById('contactForm');
       const success = document.getElementById('formSuccess');
       const btn = form.querySelector('.form-submit');
       btn.textContent = 'Sending…';
       btn.disabled = true;
-      setTimeout(() => {
+      try {
+        const data = {
+          firstName:    form.firstName.value,
+          lastName:     form.lastName.value,
+          email:        form.email.value,
+          phone:        form.phone.value,
+          businessName: form.businessName.value,
+          service:      form.service.value,
+          message:      form.message.value,
+        };
+        const res = await fetch('/api/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+        if (!res.ok) throw new Error('Server error');
         form.reset();
-        btn.textContent = 'Send Message';
-        btn.disabled = false;
         success.style.display = 'block';
         setTimeout(() => { success.style.display = 'none'; }, 5000);
-      }, 1000);
+      } catch (err) {
+        alert('There was a problem sending your message. Please call us directly at (888) 787-Cart.');
+      } finally {
+        btn.textContent = 'Send Message';
+        btn.disabled = false;
+      }
     }
 
     // Hide floating phone when contact section is visible
@@ -1379,30 +1396,36 @@
       if (e.key === 'Escape') closeReportModal();
     });
 
-    // Handle form submission via Formspree AJAX
+    // Report form — POST to Cloudflare Pages Function
     document.getElementById('reportForm').addEventListener('submit', async function(e) {
       e.preventDefault();
       const btn = this.querySelector('.rpt-submit');
       btn.textContent = 'Sending…';
       btn.disabled = true;
       try {
-        const res = await fetch(this.action, {
+        const data = {
+          name:       this.name.value,
+          contact:    this.contact.value,
+          store_name: this.store_name.value,
+          location:   this.location.value,
+          cart_count: this.cart_count.value,
+          notes:      this.notes.value,
+        };
+        const res = await fetch('/api/report', {
           method: 'POST',
-          body: new FormData(this),
-          headers: { 'Accept': 'application/json' }
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
         });
         if (res.ok) {
           document.getElementById('rptFormWrap').style.display = 'none';
           document.getElementById('rptSuccess').style.display = 'flex';
         } else {
-          btn.textContent = 'Try Again';
-          btn.disabled = false;
-          alert('Something went wrong. Please call (888) 787-Cart to report directly.');
+          throw new Error('Server error');
         }
       } catch {
         btn.textContent = 'Try Again';
         btn.disabled = false;
-        alert('Network error. Please call (888) 787-Cart to report directly.');
+        alert('Something went wrong. Please call (888) 787-Cart to report directly.');
       }
     });
   </script>
