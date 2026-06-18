@@ -1292,7 +1292,7 @@
           service:      form.service.value,
           message:      form.message.value,
         };
-        const res = await fetch('/api/submit', {
+        const res = await fetch('https://calm-leaf-f070.aarana.workers.dev/submit', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(data),
@@ -1411,7 +1411,7 @@
           cart_count: this.cart_count.value,
           notes:      this.notes.value,
         };
-        const res = await fetch('/api/report', {
+        const res = await fetch('https://calm-leaf-f070.aarana.workers.dev/report', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(data),
