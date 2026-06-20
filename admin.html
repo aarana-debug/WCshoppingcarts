@@ -107,6 +107,15 @@ body { font-family: 'Roboto', sans-serif; background: var(--light); color: #1118
 .tab-btn.active { background: var(--accent); border-color: var(--accent); color: var(--white); }
 .tab-btn:hover:not(.active) { border-color: var(--accent); color: var(--accent); }
 
+.city-select {
+  padding: 7px 12px; border-radius: 6px; border: 1.5px solid var(--border);
+  background: var(--white); font-size: .83rem; font-weight: 600;
+  font-family: inherit; color: #374151; cursor: pointer; outline: none;
+}
+.city-select:focus { border-color: var(--accent); }
+.btn-city-report { background: #ede9fe; color: #6d28d9; }
+.btn-city-report:hover { background: #ddd6fe; }
+
 .toolbar-actions { display: flex; gap: 8px; }
 .action-btn {
   padding: 8px 16px; border-radius: 7px; border: none;
@@ -274,7 +283,14 @@ input[type="checkbox"] { width: 15px; height: 15px; cursor: pointer; accent-colo
         <button class="tab-btn" onclick="setFilter('contact', this)">Contact Leads</button>
         <button class="tab-btn" onclick="setFilter('report', this)">Cart Reports</button>
       </div>
+      <select class="city-select" id="citySelect" onchange="setCityFilter(this.value)">
+        <option value="all">All Cities</option>
+      </select>
       <div class="toolbar-actions">
+        <button class="action-btn btn-city-report" onclick="exportCityReport()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+          City Report
+        </button>
         <button class="action-btn btn-export" onclick="exportCSV()">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
           Export CSV
@@ -305,9 +321,10 @@ input[type="checkbox"] { width: 15px; height: 15px; cursor: pointer; accent-colo
 
 <script>
 const API = 'https://wcsc-api.aarana.workers.dev/submissions';
-let allData   = [];
-let filtered  = [];
+let allData      = [];
+let filtered     = [];
 let activeFilter = 'all';
+let activeCity   = 'all';
 
 /* ── Load on page open ── */
 async function loadData() {
@@ -321,14 +338,30 @@ loadData();
 /* ── Filter ── */
 function setFilter(type, btn) {
   activeFilter = type;
+  activeCity   = 'all';
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   render();
 }
 
+function setCityFilter(city) {
+  activeCity = city;
+  render();
+}
+
 /* ── Render ── */
 function render() {
-  filtered = activeFilter === 'all' ? allData : allData.filter(r => r.type === activeFilter);
+  const typeFiltered = activeFilter === 'all' ? allData : allData.filter(r => r.type === activeFilter);
+
+  // Rebuild city dropdown from type-filtered data
+  const cities = [...new Set(typeFiltered.map(r => r.city || '').filter(Boolean))].sort();
+  const sel = document.getElementById('citySelect');
+  const prev = sel.value;
+  sel.innerHTML = '<option value="all">All Cities</option>' +
+    cities.map(c => `<option value="${esc(c)}"${activeCity === c ? ' selected' : ''}>${esc(c)}</option>`).join('');
+  if (cities.includes(activeCity)) sel.value = activeCity; else { activeCity = 'all'; sel.value = 'all'; }
+
+  filtered = activeCity === 'all' ? typeFiltered : typeFiltered.filter(r => (r.city||'') === activeCity);
   updateStats();
 
   const wrap = document.getElementById('tableContent');
@@ -454,8 +487,8 @@ function apiFetch(url, method) {
 function exportCSV() {
   if (!filtered.length) { toast('No data to export.', true); return; }
 
-  const contactCols = ['id','timestamp','type','firstName','lastName','email','phone','businessName','service','message'];
-  const reportCols  = ['id','timestamp','type','name','contact','store_name','location','cart_count','notes'];
+  const contactCols = ['id','timestamp','type','city','first_name','last_name','email','phone','business_name','service','message'];
+  const reportCols  = ['id','timestamp','type','city','name','contact','store_name','location','cart_count','notes'];
   const allCols     = [...new Set([...contactCols, ...reportCols])];
 
   const header = allCols.join(',');
@@ -473,6 +506,40 @@ function exportCSV() {
   a.download = `wcsc-submissions-${new Date().toISOString().slice(0,10)}.csv`;
   a.click();
   toast(`Exported ${filtered.length} row(s).`);
+}
+
+/* ── City Report ── */
+function exportCityReport() {
+  const reports = allData.filter(r => r.type === 'report');
+  if (!reports.length) { toast('No cart reports to summarize.', true); return; }
+
+  const cityMap = {};
+  reports.forEach(r => {
+    const city = r.city || '(No City)';
+    if (!cityMap[city]) cityMap[city] = [];
+    cityMap[city].push(r);
+  });
+
+  const header = 'City,Total Reports,Stores,Locations,Total Carts,Latest Report';
+  const rows = Object.entries(cityMap)
+    .sort(([a],[b]) => a.localeCompare(b))
+    .map(([city, items]) => {
+      const stores    = [...new Set(items.map(r => r.store_name).filter(Boolean))].join('; ');
+      const locations = [...new Set(items.map(r => r.location).filter(Boolean))].join('; ');
+      const totalCarts = items.reduce((sum, r) => sum + (parseInt(r.cart_count)||0), 0);
+      const latest    = items.map(r => r.timestamp).sort().reverse()[0];
+      const latestFmt = new Date(latest).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+      const q = v => `"${String(v).replace(/"/g,'""')}"`;
+      return [q(city), items.length, q(stores), q(locations), totalCarts, q(latestFmt)].join(',');
+    });
+
+  const csv = [header, ...rows].join('\r\n');
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `wcsc-city-report-${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();
+  toast(`City report exported — ${Object.keys(cityMap).length} cities.`);
 }
 
 /* ── Toast ── */
