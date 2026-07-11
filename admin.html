@@ -510,8 +510,9 @@ function exportCSV() {
   const reportCols  = ['id','timestamp','type','city','name','contact','store_name','location','cart_count','notes'];
   const allCols     = [...new Set([...contactCols, ...reportCols])];
 
+  const sorted = [...filtered].sort((a, b) => (a.city || '').localeCompare(b.city || ''));
   const header = allCols.join(',');
-  const rows = filtered.map(r =>
+  const rows = sorted.map(r =>
     allCols.map(col => {
       const val = r[col] != null ? String(r[col]) : '';
       return `"${val.replace(/"/g, '""')}"`;
