@@ -531,7 +531,7 @@
           </div>
           <h3>Abandoned Cart Reporting</h3>
           <p>See a stray shopping cart? Report it to us at no cost. We'll dispatch a driver to collect it within 24 hours. It costs you nothing — we collect payment from the retailer.</p>
-          <a href="#contact" class="service-link">Report a Cart <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+          <a href="#" onclick="event.preventDefault();openReportModal()" class="service-link">Report a Cart <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
         </div>
       </div>
     </div>
@@ -1028,18 +1028,6 @@
             </div>
           </div>
 
-          <!-- Mailing address map -->
-          <div class="contact-map-wrap">
-            <div class="contact-map-label">
-              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z"/><circle cx="12" cy="11" r="3"/></svg>
-              1773 W San Bernardino Rd, P.O. Box 32, West Covina, CA 91017
-            </div>
-            <iframe
-              src="https://maps.google.com/maps?q=1773+W+San+Bernardino+Rd,+West+Covina,+CA+91017&t=&z=16&ie=UTF8&iwloc=&output=embed"
-              width="100%" height="200" style="border:0;" allowfullscreen="" loading="lazy"
-              referrerpolicy="no-referrer-when-downgrade" title="West Covina CA map">
-            </iframe>
-          </div>
         </div>
         <div class="contact-form">
           <div class="form-title">Request a Free Estimate</div>
@@ -1097,6 +1085,19 @@
             </div>
           </form>
         </div>
+      </div>
+
+      <!-- Mailing address map -->
+      <div class="contact-map-wrap" style="margin-top:32px;">
+        <div class="contact-map-label">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z"/><circle cx="12" cy="11" r="3"/></svg>
+          1773 W San Bernardino Rd, P.O. Box 32, West Covina, CA 91017
+        </div>
+        <iframe
+          src="https://maps.google.com/maps?q=1773+W+San+Bernardino+Rd,+West+Covina,+CA+91017&t=&z=16&ie=UTF8&iwloc=&output=embed"
+          width="100%" height="260" style="border:0;border-radius:12px;" allowfullscreen="" loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade" title="West Covina CA map">
+        </iframe>
       </div>
     </div>
   </section>
