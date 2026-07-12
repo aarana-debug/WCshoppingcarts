@@ -479,27 +479,24 @@
           </div>
         </div>
 
-        <div class="gallery-item" onclick="openLightbox(5)">
-          <img src="after replacment 1.jpg" alt="New wheels being installed on a shopping cart" loading="lazy">
-          <div class="gallery-caption">
+        <div class="gallery-item gallery-item-beforeafter">
+          <div class="ba-wrap">
+            <img class="ba-img" src="before replacement 1.jpg" alt="Shopping cart before wheel replacement" loading="lazy">
+            <img class="ba-img ba-after-img" src="after replacment 1.jpg" alt="Shopping cart after wheel replacement" loading="lazy">
+            <span class="ba-label ba-label-before">Before</span>
+            <span class="ba-label ba-label-after">After</span>
+          </div>
+          <div class="gallery-caption" style="opacity:1;transform:translateY(0);">
             <span class="gallery-tag gallery-tag--repair">Repair</span>
-            Wheel Replacement Service
+            Wheel Replacement — Before &amp; After
           </div>
         </div>
 
-        <div class="gallery-item" onclick="openLightbox(6)">
+        <div class="gallery-item" onclick="openLightbox(5)">
           <img src="wheel replacement.jpg" alt="Shopping cart with newly installed wheels ready for service" loading="lazy">
           <div class="gallery-caption">
             <span class="gallery-tag gallery-tag--repair">Repair</span>
             Cart Restoration Complete
-          </div>
-        </div>
-
-        <div class="gallery-item" onclick="openLightbox(7)">
-          <img src="before replacement 1.jpg" alt="Shopping cart wheel assessment before repair" loading="lazy">
-          <div class="gallery-caption">
-            <span class="gallery-tag gallery-tag--repair">Repair</span>
-            Cart Inspection &amp; Assessment
           </div>
         </div>
 
@@ -1447,9 +1444,7 @@
       { src: 'cart pick up 2.jpg',                    cap: 'Same-Day Cart Transport' },
       { src: 'image0.jpeg',                           cap: 'Fleet Recovery at Major Retailer' },
       { src: 'welding photo.jpg',                     cap: 'Professional Cart Welding' },
-      { src: 'after replacment 1.jpg',                cap: 'Wheel Replacement Service' },
       { src: 'wheel replacement.jpg',                 cap: 'Cart Restoration Complete' },
-      { src: 'before replacement 1.jpg',              cap: 'Cart Inspection & Assessment' },
     ];
     let lbIndex = 0;
 

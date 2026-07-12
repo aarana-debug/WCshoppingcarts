@@ -1581,6 +1581,36 @@ button.floating-report {
 }
 .gallery-tag--repair { background: #1a5fb4; }
 
+/* Before / After card */
+.gallery-item-beforeafter { cursor: default; }
+.ba-wrap { position: relative; width: 100%; height: 100%; }
+.ba-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+.ba-after-img { animation: baFade 5s ease-in-out infinite; }
+@keyframes baFade {
+  0%, 30%  { opacity: 0; }
+  45%, 80% { opacity: 1; }
+  95%, 100%{ opacity: 0; }
+}
+.ba-label {
+  position: absolute; top: 12px; left: 12px; z-index: 10;
+  background: rgba(0,0,0,.62); color: #fff;
+  font-size: .7rem; font-weight: 700; letter-spacing: .1em;
+  text-transform: uppercase; padding: 4px 10px; border-radius: 4px;
+  pointer-events: none;
+}
+.ba-label-after  { animation: baLabelAfter  5s ease-in-out infinite; }
+.ba-label-before { animation: baLabelBefore 5s ease-in-out infinite; }
+@keyframes baLabelAfter {
+  0%, 30%  { opacity: 0; }
+  45%, 80% { opacity: 1; }
+  95%, 100%{ opacity: 0; }
+}
+@keyframes baLabelBefore {
+  0%, 30%  { opacity: 1; }
+  45%, 80% { opacity: 0; }
+  95%, 100%{ opacity: 1; }
+}
+
 /* Lightbox */
 .lightbox-overlay {
   position: fixed;
