@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gallery | West Coast Shopping Cart Service</title>
+  <meta name="description" content="Photos of West Coast Shopping Cart Service in action — cart retrieval, repairs, containment systems, and more across Southern California.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* ── Gallery Page ── */
+    .gallery-page-hero {
+      background: linear-gradient(rgba(4,8,20,0.72), rgba(4,8,20,0.72)),
+        url('hero section photo.jpeg') center 40%/cover no-repeat;
+      padding: 60px 0 52px;
+      text-align: center;
+      color: #fff;
+    }
+    .gallery-page-hero h1 { font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 800; margin-bottom: 10px; }
+    .gallery-page-hero p  { font-size: 1rem; opacity: .8; max-width: 540px; margin: 0 auto; }
+
+    .gallery-filters {
+      display: flex; gap: 8px; flex-wrap: wrap; justify-content: center;
+      padding: 32px 0 24px;
+    }
+    .filter-btn {
+      padding: 8px 20px; border-radius: 50px;
+      border: 1.5px solid var(--border);
+      background: transparent; font-size: .84rem; font-weight: 600;
+      cursor: pointer; font-family: var(--font); color: var(--gray);
+      transition: all .18s;
+    }
+    .filter-btn.active, .filter-btn:hover {
+      background: var(--orange); border-color: var(--orange); color: #fff;
+    }
+
+    .gallery-page-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      padding-bottom: 80px;
+    }
+    .gp-item {
+      position: relative; border-radius: 10px; overflow: hidden;
+      cursor: pointer; aspect-ratio: 4/3;
+      background: #eee;
+    }
+    .gp-item img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform .35s ease;
+      display: block;
+    }
+    .gp-item:hover img { transform: scale(1.05); }
+    .gp-caption {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: linear-gradient(transparent, rgba(0,0,0,.72));
+      color: #fff; padding: 28px 14px 14px;
+      opacity: 0; transition: opacity .25s;
+      font-size: .82rem; font-weight: 600;
+    }
+    .gp-item:hover .gp-caption { opacity: 1; }
+    .gp-tag {
+      display: inline-block; font-size: .68rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .08em;
+      background: var(--orange); color: #fff;
+      padding: 2px 8px; border-radius: 4px; margin-bottom: 4px;
+    }
+
+    /* Lightbox */
+    .lb-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,.92); z-index: 9999;
+      align-items: center; justify-content: center;
+    }
+    .lb-overlay.open { display: flex; }
+    .lb-img { max-width: 90vw; max-height: 88vh; border-radius: 6px; object-fit: contain; }
+    .lb-close {
+      position: absolute; top: 18px; right: 22px;
+      background: none; border: none; color: #fff;
+      font-size: 2.2rem; cursor: pointer; line-height: 1;
+    }
+    .lb-prev, .lb-next {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      background: rgba(255,255,255,.12); border: none; color: #fff;
+      font-size: 2rem; cursor: pointer; padding: 12px 18px;
+      border-radius: 8px; transition: background .2s;
+    }
+    .lb-prev:hover, .lb-next:hover { background: rgba(255,255,255,.25); }
+    .lb-prev { left: 16px; }
+    .lb-next { right: 16px; }
+    .lb-counter {
+      position: absolute; bottom: 18px; left: 50%; transform: translateX(-50%);
+      color: rgba(255,255,255,.65); font-size: .82rem;
+    }
+
+    @media (max-width: 960px) { .gallery-page-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 560px) { .gallery-page-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+  <!-- ══ TOP BAR ══ -->
+  <div class="topbar">
+    <div class="container">
+      <div class="topbar-left">
+        <span class="topbar-item">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z"/><circle cx="12" cy="11" r="3"/></svg>
+          1773 W San Bernardino Rd, Suite F 88, West Covina, CA 91790
+        </span>
+        <span class="topbar-item">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+          <a href="mailto:info@wcshoppingcart.com">info@wcshoppingcart.com</a>
+        </span>
+      </div>
+      <div class="topbar-right">
+        <span class="topbar-item">Serving Southern California</span>
+        <span class="topbar-item">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+          <a href="tel:18887872278">1 (888) 787-Cart</a>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ HEADER ══ -->
+  <header class="site-header">
+    <div class="container">
+      <div class="header-inner">
+        <a href="index.html" class="logo-wrap" aria-label="West Coast Shopping Cart Service">
+          <img src="wcshopping cart logo.webp" alt="West Coast Shopping Cart Service Logo">
+        </a>
+        <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+          <span></span><span></span><span></span>
+        </button>
+        <nav>
+          <ul class="nav-list" id="navList">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#services">Services</a></li>
+            <li><a href="index.html#about">About Us</a></li>
+            <li><a href="index.html#area">Service Area</a></li>
+            <li><a href="gallery.html" class="active">Gallery</a></li>
+            <li><a href="index.html#faq">FAQ</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+            <li class="nav-cta"><a href="index.html#contact">Get a Free Estimate</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- ══ HERO ══ -->
+  <div class="gallery-page-hero">
+    <span class="section-label">Our Work</span>
+    <h1>Photo Gallery</h1>
+    <p>See West Coast Shopping Cart Service in action — retrieval, repairs, containment systems, and more across Southern California.</p>
+  </div>
+
+  <!-- ══ GALLERY ══ -->
+  <section style="background:#fff;">
+    <div class="container">
+
+      <!-- Filters -->
+      <div class="gallery-filters">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="retrieval">Retrieval</button>
+        <button class="filter-btn" data-filter="repair">Repair &amp; Maintenance</button>
+        <button class="filter-btn" data-filter="fleet">Fleet &amp; Trucks</button>
+        <button class="filter-btn" data-filter="equipment">Equipment</button>
+      </div>
+
+      <!-- Grid -->
+      <div class="gallery-page-grid" id="galleryGrid">
+
+        <!-- Fleet & Trucks -->
+        <div class="gp-item" data-category="fleet">
+          <img src="shopping cart truck with carts in back.jpeg" alt="Service truck loaded with shopping carts" loading="lazy">
+          <div class="gp-caption"><span class="gp-tag">Fleet</span><br>Service Truck with Carts</div>
+        </div>
+        <div class="gp-item" data-category="fleet">
+          <img src="truck with a bunch of carts on it.jpg" alt="Truck loaded with shopping carts" loading="lazy">
+          <div class="gp-caption"><span class="gp-tag">Fleet</span><br>Cart Retrieval Truck</div>
+        </div>
+        <div class="gp-item" data-category="fleet">
+          <img src="company trucks.jpeg" alt="West Coast Shopping Cart Service company trucks" loading="lazy">
+          <div class="gp-caption"><span class="gp-tag">Fleet</span><br>Company Fleet</div>
+        </div>
+        <div class="gp-item" data-category="fleet">
+          <img src="photo of truck with shopping cart.png" alt="Truck with shopping cart" loading="lazy">
+          <div class="gp-caption"><span class="gp-tag">Fleet</span><br>Service Vehicle</div>
+        </div>
+
+        <!-- Retrieval -->
+        <div class="gp-item" data-category="retrieval">
+          <img src="cart pick up 2.jpg" alt="Shopping cart pick-up service" loading="lazy">
+          <div class="gp-caption"><span class="gp-tag">Retrieval</span><br>Cart Pick-Up</div>
+        </div>
+        <div class="gp-item" data-category="retrieval">
+          <img src="cart pickup 3.jpeg" alt="Cart retrieval in the field" loading="lazy">
+          <div class="gp-caption"><span class="gp-tag">Retrieval</span><br>Field Retrieval</div>
+        </div>
+        <div class="gp-item" data-category="retrieval">
+          <img src="image0.jpeg" alt="Shopping cart retrieval" loading="lazy">
+          <div class="gp-caption"><span class="gp-tag">Retrieval</span><br>Cart Retrieval Service</div>
+        </div>
+        <div class="gp-item" data-category="retrieval">
+          <img src="shopping cart pic.png" alt="Shopping carts" loading="lazy">
+          <div class="gp-caption"><span class="gp-tag">Retrieval</span><br>Shopping Carts</div>
+        </div>
+
+        <!-- Repair & Maintenance -->
+        <div class="gp-item" data-category="repair">
+          <img src="before replacement 1.jpg" alt="Cart before wheel replacement" loading="lazy">
+          <div class="gp-caption"><span class="gp-tag">Repair</span><br>Before Wheel Replacement</div>
+        </div>
+        <div class="gp-item" data-category="repair">
+          <img src="after replacment 1.jpg" alt="Cart after wheel replacement" loading="lazy">
+          <div class="gp-caption"><span class="gp-tag">Repair</span><br>After Wheel Replacement</div>
+        </div>
+        <div class="gp-item" data-category="repair">
+          <img src="wheel replacement.jpg" alt="Shopping cart wheel replacement" loading="lazy">
+          <div class="gp-caption"><span class="gp-tag">Repair</span><br>Wheel Replacement</div>
+        </div>
+        <div class="gp-item" data-category="repair">
+          <img src="cart wheel replacement 1.jpg" alt="Cart wheel replacement" loading="lazy">
+          <div class="gp-caption"><span class="gp-tag">Repair</span><br>Cart Wheel Replacement</div>
+        </div>
+        <div class="gp-item" data-category="repair">
+          <img src="cart wheel replacement 2.jpeg" alt="Wheel replacement process" loading="lazy">
+          <div class="gp-caption"><span class="gp-tag">Repair</span><br>Wheel Replacement Process</div>
+        </div>
+        <div class="gp-item" data-category="repair">
+          <img src="cart wheel replacement 3.jpeg" alt="Cart wheel maintenance" loading="lazy">
+          <div class="gp-caption"><span class="gp-tag">Repair</span><br>Cart Wheel Maintenance</div>
+        </div>
+        <div class="gp-item" data-category="repair">
+          <img src="replacing wheels 1.jpeg" alt="Replacing cart wheels on-site" loading="lazy">
+          <div class="gp-caption"><span class="gp-tag">Repair</span><br>On-Site Wheel Replacement</div>
+        </div>
+        <div class="gp-item" data-category="repair">
+          <img src="misc items to replace wheels.jpeg" alt="Parts and tools for wheel replacement" loading="lazy">
+          <div class="gp-caption"><span class="gp-tag">Repair</span><br>Replacement Parts &amp; Tools</div>
+        </div>
+        <div class="gp-item" data-category="repair">
+          <img src="welding photo.jpg" alt="Cart frame welding repair" loading="lazy">
+          <div class="gp-caption"><span class="gp-tag">Repair</span><br>Cart Frame Welding</div>
+        </div>
+        <div class="gp-item" data-category="repair">
+          <img src="IMG_8523.jpeg" alt="Cart repair and maintenance" loading="lazy">
+          <div class="gp-caption"><span class="gp-tag">Repair</span><br>Cart Repair</div>
+        </div>
+
+        <!-- Equipment -->
+        <div class="gp-item" data-category="equipment">
+          <img src="Mart handicap cart.jpeg" alt="Mart handicap shopping cart" loading="lazy">
+          <div class="gp-caption"><span class="gp-tag">Equipment</span><br>Mart Handicap Cart</div>
+        </div>
+        <div class="gp-item" data-category="equipment">
+          <img src="Amigo handicap cart.jpeg" alt="Amigo handicap shopping cart" loading="lazy">
+          <div class="gp-caption"><span class="gp-tag">Equipment</span><br>Amigo Handicap Cart</div>
+        </div>
+        <div class="gp-item" data-category="equipment">
+          <img src="Dane handicap cart.jpeg" alt="Dane handicap shopping cart" loading="lazy">
+          <div class="gp-caption"><span class="gp-tag">Equipment</span><br>Dane Handicap Cart</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ LIGHTBOX ══ -->
+  <div class="lb-overlay" id="lbOverlay">
+    <button class="lb-close" onclick="closeLb()">&#x2715;</button>
+    <button class="lb-prev" onclick="moveLb(-1)">&#8249;</button>
+    <img class="lb-img" id="lbImg" src="" alt="">
+    <button class="lb-next" onclick="moveLb(1)">&#8250;</button>
+    <div class="lb-counter" id="lbCounter"></div>
+  </div>
+
+  <!-- ══ FOOTER ══ -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <img src="wcshopping cart logo.webp" alt="West Coast Shopping Cart Service">
+          <p>California's most experienced shopping cart retrieval company. Serving Southern California since 1990 with reliable, professional cart pick-up, delivery, and repair services.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Services</h4>
+          <ul class="footer-links">
+            <li><a href="index.html#services">Daily Cart Pick-Up</a></li>
+            <li><a href="index.html#services">Rush Cart Pick-Up</a></li>
+            <li><a href="index.html#services">Cart Repair</a></li>
+            <li><a href="index.html#services">Cart Removal</a></li>
+            <li><a href="index.html#services">Abandoned Cart Reporting</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <ul class="footer-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#about">About Us</a></li>
+            <li><a href="gallery.html">Gallery</a></li>
+            <li><a href="index.html#faq">FAQ</a></li>
+            <li><a href="index.html#contact">Contact Us</a></li>
+            <li><a href="/admin.html">Staff Login</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Contact Us</h4>
+          <div class="footer-contact-item">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+            <span><a href="tel:18887872278" style="color:rgba(255,255,255,.65);">1 (888) 787-Cart</a></span>
+          </div>
+          <div class="footer-contact-item">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+            <span><a href="mailto:info@wcshoppingcart.com" style="color:rgba(255,255,255,.65);">info@wcshoppingcart.com</a></span>
+          </div>
+          <div class="footer-contact-item">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z"/><circle cx="12" cy="11" r="3"/></svg>
+            <span>1773 W San Bernardino Rd, Suite F 88<br>West Covina, CA 91790</span>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2025 West Coast Shopping Cart Service. All rights reserved.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Nav toggle
+    document.getElementById('navToggle').addEventListener('click', function() {
+      document.getElementById('navList').classList.toggle('open');
+      this.classList.toggle('open');
+    });
+
+    // Lightbox state
+    let allItems = [...document.querySelectorAll('.gp-item')];
+    let visibleItems = allItems;
+    let currentIdx = 0;
+
+    // Wire up click handlers
+    allItems.forEach(item => {
+      item.addEventListener('click', function() {
+        const idx = visibleItems.indexOf(item);
+        if (idx === -1) return;
+        currentIdx = idx;
+        showLb();
+      });
+    });
+
+    // Filter
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        const f = this.dataset.filter;
+        allItems.forEach(item => {
+          item.style.display = (f === 'all' || item.dataset.category === f) ? '' : 'none';
+        });
+        visibleItems = f === 'all' ? allItems : allItems.filter(i => i.dataset.category === f);
+      });
+    });
+
+    // Lightbox
+    function showLb() {
+      const img = visibleItems[currentIdx].querySelector('img');
+      document.getElementById('lbImg').src = img.src;
+      document.getElementById('lbImg').alt = img.alt;
+      document.getElementById('lbCounter').textContent = (currentIdx + 1) + ' / ' + visibleItems.length;
+      document.getElementById('lbOverlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLb() {
+      document.getElementById('lbOverlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    function moveLb(dir) {
+      currentIdx = (currentIdx + dir + visibleItems.length) % visibleItems.length;
+      showLb();
+    }
+    document.getElementById('lbOverlay').addEventListener('click', function(e) {
+      if (e.target === this) closeLb();
+    });
+    document.addEventListener('keydown', function(e) {
+      if (!document.getElementById('lbOverlay').classList.contains('open')) return;
+      if (e.key === 'ArrowRight') moveLb(1);
+      if (e.key === 'ArrowLeft')  moveLb(-1);
+      if (e.key === 'Escape')     closeLb();
+    });
+  </script>
+
+</body>
+</html>
