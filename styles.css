@@ -157,9 +157,8 @@ img { max-width: 100%; display: block; }
 /* ── Hero ── */
 .hero {
   position: relative;
-  background: linear-gradient(140deg,
-    #020408 0%, #040810 15%, #060f20 32%, #091530 50%,
-    #0d2255 68%, #1135a0 84%, #1a4ec4 100%);
+  background: linear-gradient(rgba(4,8,20,0.72), rgba(4,8,20,0.72)),
+    url('hero section photo.jpeg') center/cover no-repeat;
   color: var(--white);
   padding: 100px 0 90px;
   overflow: hidden;
