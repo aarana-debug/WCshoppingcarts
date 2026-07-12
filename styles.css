@@ -1581,11 +1581,17 @@ button.floating-report {
 }
 .gallery-tag--repair { background: #1a5fb4; }
 
-/* Before / After card */
+/* Before / After card — specificity must beat .gallery-item img (0,1,1) */
 .gallery-item-beforeafter { cursor: default; }
-.ba-wrap { position: relative; width: 100%; height: 100%; }
-.ba-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
-.ba-after-img { animation: baFade 5s ease-in-out infinite; }
+.gallery-item-beforeafter .ba-wrap { position: relative; width: 100%; height: 100%; }
+.gallery-item-beforeafter .ba-img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover; display: block;
+  filter: none; transition: none;
+}
+.gallery-item-beforeafter:hover .ba-img { transform: none; filter: none; }
+.gallery-item-beforeafter .ba-after-img { animation: baFade 5s ease-in-out infinite; }
 @keyframes baFade {
   0%, 30%  { opacity: 0; }
   45%, 80% { opacity: 1; }
